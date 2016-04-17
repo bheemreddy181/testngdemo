@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="demo" verbose="1" >
+    <test name="demo test"   >
+        <packages>
+            <package name="com.rong.test.test_case" />
+        </packages>
+    </test>
+    <parameter name="message" value="123"/>
+    <parameter name="a" value="1"/>
+    <parameter name="b" value="2"/>
+</suite>
