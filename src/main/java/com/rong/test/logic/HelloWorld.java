@@ -6,6 +6,7 @@ package com.rong.test.logic;
 
 public class HelloWorld {
     private String message;
+
     public HelloWorld(String meg){
         this.message = meg;
     }
