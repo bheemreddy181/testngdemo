@@ -7,13 +7,11 @@ public class CoffeeConfig {
     private String name;
     private int shots;
     private  int syrup;
-    private int count;
 
-    public CoffeeConfig(String name, int shots, int syrup, int count){
+    public CoffeeConfig(String name, int shots, int syrup){
         this.name = name;
         this.shots = shots;
         this.syrup = syrup;
-        this.count = count;
     }
 
     public String getName() {
@@ -40,21 +38,12 @@ public class CoffeeConfig {
         this.syrup = syrup;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     @Override
     public String toString() {
         return "CoffeeConfig{" +
                 "name='" + name + '\'' +
                 ", shots=" + shots +
                 ", syrup=" + syrup +
-                ", count=" + count +
                 '}';
     }
 }

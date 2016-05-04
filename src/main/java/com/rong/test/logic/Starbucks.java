@@ -1,6 +1,7 @@
 package com.rong.test.logic;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,55 +12,56 @@ import java.util.Map;
 public class Starbucks {
 
     private int count = 0;
-    private BigDecimal income = BigDecimal.ZERO;
-    public BigDecimal getIncome() {
-
-        return income;
+    private Integer income = 0;
+    private static Map<String, Integer> priceTable = new HashMap<>();
+    static {
+        priceTable.put("latte", 30);
+        priceTable.put("mocha", 33);
     }
 
     public int getCount() {
         return count;
     }
 
-//    public List<Coffee> buyCoffee(int shots, int syrup , String name, int count){
-//        List<Coffee> coffeeList = new LinkedList<Coffee>();
-//        this.count += count;
-//        income = income.add(Coffee.getPrice().get(name).multiply(BigDecimal.valueOf(count)));
-//        for (int i=0 ;i < count ; i++ ){
-//           coffeeList.add(new Coffee(shots, syrup,name));
-//        }
-//return coffeeList;
-//
-//    }
-
-    public List<Coffee> buyCoffee(List<CoffeeConfig> coffeeConfigs){
-        List<Coffee> coffeeList = new LinkedList<Coffee>();
-        for(int i =0 ; i< coffeeConfigs.size(); i++){
-            coffeeList.addAll(makeCoffee(coffeeConfigs.get(i)));
-            count += coffeeConfigs.get(i).getCount();
-            income = income.add(Coffee.getPrice().get(coffeeConfigs.get(i).getName()).multiply(BigDecimal.valueOf(coffeeConfigs.get(i).getCount())));
-        }
-           return coffeeList;
+    public Integer getIncome() {
+        return income;
     }
 
-    public List<Coffee> makeCoffee(CoffeeConfig coffeeConfig){
+    public List<Coffee> buyCoffeeWithCount(CoffeeConfig coffeeConfig, Integer num) {
+        List<Coffee> coffeeList = new LinkedList<>();
+        for (int i =0;i< num; i++){
+            coffeeList.addAll(makeCoffee(coffeeConfig, num));
+
+        }
+        count += num;
+        income += priceTable.get(coffeeConfig.getName())*num;
+        return coffeeList;
+    }
+
+
+    public List<Coffee> makeCoffee(CoffeeConfig coffeeConfig, Integer num){
         List<Coffee> coffeeList = new LinkedList<Coffee>();
-        for( int i = 0; i < coffeeConfig.getCount(); i++){
-            coffeeList.add(new Coffee (coffeeConfig) );
+
+        for( int i = 0; i < num; i++){
+            Coffee coffee = new Coffee(coffeeConfig, priceTable.get(coffeeConfig.getName()));
+            coffeeList.add(coffee);
         }
         return coffeeList;
     }
 
     public static void main(String[] args){
         Starbucks starbucks = new Starbucks();
-     List<CoffeeConfig> coffeeConfigs = new LinkedList<CoffeeConfig>();
-        coffeeConfigs.add(new CoffeeConfig("latte", 1, 1,3));
-        coffeeConfigs.add(new CoffeeConfig("mocha", 2, 2,4));
-        List<Coffee> uu = starbucks.buyCoffee(coffeeConfigs);
 
-      for (int i= 0; i< uu.size(); i++) {
-          System.out.println(uu.get(i));
-      }
+        Starbucks starbucks1;
+
+        List<CoffeeConfig> coffeeConfigs = new LinkedList<CoffeeConfig>();
+        coffeeConfigs.add(new CoffeeConfig("latte", 1, 1));
+        coffeeConfigs.add(new CoffeeConfig("mocha", 2, 2));
+        for (CoffeeConfig coffeeConfig: coffeeConfigs){
+
+            List<Coffee> uu = starbucks.buyCoffeeWithCount(coffeeConfig, 10);
+        }
+
         System.out.println(starbucks.getCount());
         System.out.println(starbucks.getIncome());
     }

@@ -3,8 +3,7 @@ package com.rong.test.logic;
 import com.sun.org.apache.bcel.internal.generic.FLOAD;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rongwf1 on 2016/5/2.
@@ -12,24 +11,20 @@ import java.util.Map;
 public class Coffee {
     private CoffeeConfig coffeeConfig;
 
-    private static Map<String, BigDecimal> price = new HashMap<String, BigDecimal>();
-    static {
-        price.put("latte", BigDecimal.valueOf(1.23));
-        price.put("mocha", BigDecimal.valueOf(2.13));
-    }
+    private Integer price;
 
-    public Coffee(CoffeeConfig coffeeConfig){
+    public Coffee(CoffeeConfig coffeeConfig, Integer price){
         this.coffeeConfig = coffeeConfig;
-
+        this.price = price;
     }
 
-//    public String toString (){
-//        return name +  " has " + shots + " and " + syrup;
-//    }
 
-
-    public static Map<String, BigDecimal> getPrice() {
+    public Integer getPrice() {
         return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public CoffeeConfig getCoffeeConfig() {
@@ -44,6 +39,7 @@ public class Coffee {
     public String toString() {
         return "Coffee{" +
                 "coffeeConfig=" + coffeeConfig +
+                ", price=" + price +
                 '}';
     }
 }
