@@ -1,6 +1,6 @@
-package com.rong.test.data_providers;
+package com.rong.flora.data_providers;
 
-import com.rong.test.model.RackInfo;
+import com.rong.flora.model.RackInfo;
 import org.testng.annotations.DataProvider;
 
 /**

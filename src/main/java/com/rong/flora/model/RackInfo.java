@@ -1,4 +1,4 @@
-package com.rong.test.model;
+package com.rong.flora.model;
 
 /**
  * Created by rongwf1 on 2016/4/17.
