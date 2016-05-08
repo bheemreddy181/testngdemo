@@ -3,7 +3,7 @@
 <suite name="demo" verbose="1" >
     <test name="demo test"   >
         <packages>
-            <package name="com.rong.test.test_case" />
+            <package name="com.rong.flora.test_case" />
         </packages>
     </test>
     <parameter name="message" value="123"/>
