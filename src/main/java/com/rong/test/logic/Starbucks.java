@@ -29,10 +29,8 @@ public class Starbucks {
 
     public List<Coffee> buyCoffeeWithCount(CoffeeConfig coffeeConfig, Integer num) {
         List<Coffee> coffeeList = new LinkedList<>();
-        for (int i =0;i< num; i++){
             coffeeList.addAll(makeCoffee(coffeeConfig, num));
 
-        }
         count += num;
         income += priceTable.get(coffeeConfig.getName())*num;
         return coffeeList;
@@ -52,17 +50,21 @@ public class Starbucks {
     public static void main(String[] args){
         Starbucks starbucks = new Starbucks();
 
-        Starbucks starbucks1;
+        List<Coffee> coffeeList = new LinkedList<>();
 
         List<CoffeeConfig> coffeeConfigs = new LinkedList<CoffeeConfig>();
         coffeeConfigs.add(new CoffeeConfig("latte", 1, 1));
         coffeeConfigs.add(new CoffeeConfig("mocha", 2, 2));
         for (CoffeeConfig coffeeConfig: coffeeConfigs){
 
-            List<Coffee> uu = starbucks.buyCoffeeWithCount(coffeeConfig, 10);
+            coffeeList.addAll(starbucks.buyCoffeeWithCount(coffeeConfig, 10));
         }
-
         System.out.println(starbucks.getCount());
         System.out.println(starbucks.getIncome());
+        for (int i= 0; i<coffeeList.size(); i++){
+            System.out.println("idx:" + i + "\n"+"syrup:" + coffeeList.get(i).getCoffeeConfig().getSyrup()+"\n"+
+            "shots:"+coffeeList.get(i).getCoffeeConfig().getShots() +"\n"+"price:" + coffeeList.get(i).getPrice()+"\n" +
+            "name:" + coffeeList.get(i).getCoffeeConfig().getName());
+        }
     }
 }
