@@ -2,11 +2,9 @@
 
 <suite name="demo" verbose="1" >
     <test name="demo test"   >
-        <packages>
-            <package name="com.rong.flora.rest_api" />
-        </packages>
+        <classes>
+            <class name="com.rong.flora.rest_api.TestRestAPI"/>
+        </classes>
     </test>
-    <parameter name="message" value="123"/>
-    <parameter name="a" value="1"/>
-    <parameter name="b" value="2"/>
+    <parameter name="id" value="1"/>
 </suite>

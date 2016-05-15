@@ -12,12 +12,14 @@ import org.testng.annotations.Test;
 /**
  * Created by flora on 16/5/8.
  */
+
 public class TestRestAPI {
     String host = "http://127.0.0.1:8080";
 
-    @Test
+    @Test(parameters = {"id"})
     public void testGetOpJournal( int id){
         String uri = "/settlement/dlc/journal/op/in/"+id;
+
         try {
             HttpResponse<JsonNode> response =Unirest.get(host+uri).asJson();
             JSONObject body = response.getBody().getObject();

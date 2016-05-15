@@ -2,6 +2,7 @@ package com.rong.flora.test_case;
 
 import com.rong.flora.logic.Coffee;
 import com.rong.flora.logic.CoffeeConfig;
+import com.rong.flora.rest_api.TestRestAPI;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,6 +15,5 @@ public class TestCoffee {
     @Test
     public void testGetPrice(){
         Assert.assertEquals(coffee.getPrice(), Integer.valueOf(30), "ok");
-
     }
 }
