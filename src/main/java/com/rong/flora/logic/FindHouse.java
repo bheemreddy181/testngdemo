@@ -1,7 +1,6 @@
 package com.rong.flora.logic;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rongwf1 on 2016/5/15.
@@ -30,6 +29,20 @@ public class FindHouse {
         return score;
     }
 
+    public void sort(List<House> houseList){
+
+        for(House h :houseList){
+            score(h);
+        }
+        houseList.sort(new Comparator<House>() {
+            @Override
+            public int compare(House o1, House o2) {
+                return o2.getScore() - o1.getScore();
+            }
+        });
+
+    }
+
     public static void main(String[] args){
         House house = new House();
         house.setLocation(20);
@@ -52,6 +65,10 @@ public class FindHouse {
         house1.setSquare(57);
         house1.setId(2);
 
+        List<House> houselist = new LinkedList<>();
+        houselist.add(house);
+        houselist.add(house1);
+
         FindHouse findHouse = new FindHouse();
         Map<String, Integer> priority = new HashMap<>();
         priority.put("location", 10);
@@ -63,9 +80,10 @@ public class FindHouse {
         priority.put("shouFu", 4);
 
         findHouse.setPriority(priority);
-        findHouse.score(house);
-        findHouse.score(house1);
-        System.out.println(house);
-        System.out.println(house1);
+        houselist.forEach(findHouse::score);
+
+        System.out.println(houselist);
+        findHouse.sort(houselist);
+        System.out.println(houselist);
     }
 }
