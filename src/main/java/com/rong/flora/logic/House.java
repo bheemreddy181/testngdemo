@@ -18,7 +18,31 @@ public class House {
     private Integer score = 0;
     private Integer square = 0;
     private Integer totalPrice = price * square;
+    private static Integer count;
+    static {
+        count = 0;
 
+    }
+
+    public House(Integer location, Integer price, Integer convenient, Integer decoration){
+        this.location = location;
+        this.price = price;
+        this.convenient = convenient;
+        this.decoration = decoration;
+        count ++;
+    }
+
+    public House(){
+        count++;
+    }
+
+    public House(Integer price) {
+        this.price = price;
+    }
+
+    public static Integer getCount(){
+        return count;
+    }
     public Integer getTotalPrice() {
         totalPrice = price * square;
         return totalPrice;

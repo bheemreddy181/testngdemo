@@ -34,6 +34,7 @@ public class FindHouse {
         for(House h :houseList){
             score(h);
         }
+
         houseList.sort(new Comparator<House>() {
             @Override
             public int compare(House o1, House o2) {
@@ -65,6 +66,7 @@ public class FindHouse {
         house1.setSquare(57);
         house1.setId(2);
 
+        House house2 = new House(30,5,0,0);
         List<House> houselist = new LinkedList<>();
         houselist.add(house);
         houselist.add(house1);
@@ -85,5 +87,6 @@ public class FindHouse {
         System.out.println(houselist);
         findHouse.sort(houselist);
         System.out.println(houselist);
+        System.out.println(House.getCount());
     }
 }
