@@ -3,8 +3,10 @@
 <suite name="demo" verbose="1" >
     <test name="demo test"   >
         <classes>
-            <class name="com.rong.flora.rest_api.TestRestAPI"/>
+           <!--<class name="com.rong.flora.rest_api.TestRestAPI"/>-->
+            <class name="com.rong.flora.test_case.TestLenovoServer"/>
         </classes>
     </test>
     <parameter name="id" value="1"/>
+    <parameter name="price" value="99"/>
 </suite>
