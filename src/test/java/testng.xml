@@ -4,7 +4,8 @@
     <test name="demo test"   >
         <classes>
            <!--<class name="com.rong.flora.rest_api.TestRestAPI"/>-->
-            <class name="com.rong.flora.test_case.TestLenovoServer"/>
+            <!--<class name="com.rong.flora.test_case.TestLenovoServer"/>-->
+            <class name="com.rong.flora.test_case.TestAbstractTea"/>
         </classes>
     </test>
     <parameter name="id" value="1"/>

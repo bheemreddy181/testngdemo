@@ -8,6 +8,7 @@ public class Coffee {
 
     private Integer price;
 
+    public Coffee(){}
     public Coffee(CoffeeConfig coffeeConfig, Integer price){
         this.coffeeConfig = coffeeConfig;
         this.price = price;
