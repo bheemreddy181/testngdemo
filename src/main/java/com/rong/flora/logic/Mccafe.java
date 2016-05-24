@@ -9,26 +9,38 @@ import java.util.Random;
  */
 public class Mccafe {
 
-    GreenTea greenTea = new GreenTea();
-    Coffee coffee = new Coffee();
+    private String name ;
+    private static Integer price;
+    static {
+        price = 10;
+        System.out.println("we");
+    }
+    //public Mccafe(){System.out.println("mccafe is great");}
 
-    public Object getTeaOrCoffee(){
+    public Mccafe(String name){System.out.println("Mccafe is lost");}
 
+    public Object getTeaOrCoffee(Double teaRatio){
+
+        if (teaRatio > 1){
+            System.out.println(" the value should be less than 1");
+            return null;
+        }
+        Coffee coffee = new Coffee();
+        GreenTea greenTea = new GreenTea();
         Random random = new Random();
         Integer a = random.nextInt(100);
-        if(a < 50){
+
+        if (a < 100 * teaRatio) {
             return greenTea;
-        } else{
+        } else {
             return coffee;
         }
-
-
     }
 
     public static void main(String[] args){
-        Mccafe mccafe = new Mccafe();
+        Mccafe mccafe = new Mccafe("ikea");
         for(int i = 0; i < 10; i++){
-        System.out.println(mccafe.getTeaOrCoffee());
+            System.out.println(mccafe.getTeaOrCoffee(1.0));
         }
     }
 }
