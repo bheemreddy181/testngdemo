@@ -5,9 +5,13 @@
         <classes>
            <!--<class name="com.rong.flora.rest_api.TestRestAPI"/>-->
             <!--<class name="com.rong.flora.test_case.TestLenovoServer"/>-->
-            <class name="com.rong.flora.test_case.TestAbstractTea"/>
+            <!--<class name="com.rong.flora.test_case.TestAbstractTea"/>-->
+            <class name="com.rong.flora.rest_api.TestCouponAPI"/>
         </classes>
     </test>
     <parameter name="id" value="1"/>
     <parameter name="price" value="99"/>
+    <parameter name="couponId" value="8"/>
+    <parameter name="account" value="25"/>
+    <parameter name="operator" value="99"/>
 </suite>
