@@ -11,7 +11,8 @@
     </test>
     <parameter name="id" value="1"/>
     <parameter name="price" value="99"/>
-    <parameter name="couponId" value="8"/>
+    <parameter name="couponId" value="3"/>
+    <parameter name="invalidCouponId" value="0"/>
     <parameter name="account" value="25"/>
     <parameter name="operator" value="99"/>
 </suite>
