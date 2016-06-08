@@ -1,8 +1,6 @@
 package com.rong.flora.coupon;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lafengnan on 16/6/7.
@@ -12,14 +10,14 @@ public class User {
     private Integer age;
     private String gender;
     private Integer id;
-    private List<Coupon> coupons;
+    private Set<Coupon> coupons;
 
     public User(String name, Integer age, String gender, Integer id){
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.id = id;
-        this.coupons = new LinkedList<>();
+        this.coupons = new HashSet<>();
 
     }
     public String getGender() {
@@ -50,11 +48,11 @@ public class User {
         return id;
     }
 
-    public List<Coupon> getCoupon() {
+    public Set<Coupon> getCoupon() {
         return coupons;
     }
 
-    public void setCoupon(List<Coupon> coupon) {
+    public void setCoupon(Set<Coupon> coupon) {
         this.coupons = coupon;
     }
 
@@ -69,24 +67,19 @@ public class User {
                 '}';
     }
 
-    public List<Coupon> addCoupon(Coupon coupon)throws Exception{
+    public Set<Coupon> addCoupon(Coupon coupon)throws Exception{
         if(coupon ==null){
             throw new Exception("invalid coupon");
         }
+        coupons.add(coupon);
+        return coupons;
+    }
 
-        Boolean isExists = false;
-
-        for (int i = 0; i < coupons.size(); i++) {
-            if (coupons.get(i).getId().equals(coupon.getId())) {
-                isExists = true;
-                break;
-            }
+    public Set<Coupon> addCouponList(List<Coupon> couponList)throws Exception{
+        if (couponList == null){
+            throw new Exception("invalid couponList");
         }
-
-        if (!isExists){
-            coupons.add(coupon);
-        }
-
+        coupons.addAll(couponList);
         return coupons;
     }
 }
