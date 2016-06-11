@@ -10,14 +10,20 @@ public class User {
     private Integer age;
     private String gender;
     private Integer id;
+    private Integer asset;
     private Set<Coupon> coupons;
+    private List<Product> products;
+    private Integer point;
 
-    public User(String name, Integer age, String gender, Integer id){
+    public User(String name, Integer age, String gender, Integer id, Integer asset ){
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.id = id;
+        this.asset = asset;
+        this.point = 0;
         this.coupons = new HashSet<>();
+        this.products = new LinkedList<>();
 
     }
     public String getGender() {
@@ -56,14 +62,33 @@ public class User {
         this.coupons = coupon;
     }
 
+    public List<Product> getProduct() {
+        return products;
+    }
+
+    public void setProduct(List<Product> products) {
+        this.products = products;
+    }
+
+    public Integer getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Integer asset) {
+        this.asset = asset;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "age=" + age +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", id=" + id +
+                ", asset=" + asset +
                 ", coupons=" + coupons +
+                ", products=" + products +
+                ", point=" + point +
                 '}';
     }
 
@@ -81,5 +106,91 @@ public class User {
         }
         coupons.addAll(couponList);
         return coupons;
+    }
+
+    public Set<Coupon> getCouponsForProduct(Product product, Integer num ){
+
+        Integer totalPrice = product.getPrice()*num;
+
+        if (Product.getRules().keySet().contains(product.getName()) &&
+                Product.getRules().get(product.getName()) <= totalPrice){
+            return validCouponList();
+        }
+        return new HashSet<>();
+    }
+
+    public Integer getPointForProduct(Product product, Integer num){
+        Integer point = 0;
+        Integer totalPrice = product.getPrice()*num;
+        point = totalPrice;
+        return point;
+    }
+
+
+    public Boolean buySuccess(Integer amount){
+        return asset >= amount;
+    }
+
+    public Coupon selectMinCoupon(){
+        Coupon minCoupon = (Coupon)validCouponList().toArray()[0];
+
+        Iterator<Coupon> iterator = validCouponList().iterator();
+        while (iterator.hasNext()){
+            Coupon coupon1 = iterator.next();
+            if(coupon1.compareTo(minCoupon) < 0){
+                minCoupon = coupon1;
+            }
+        }
+        return minCoupon;
+    }
+
+    public Set<Coupon> validCouponList(){
+
+        Set<Coupon> validCouponList = new HashSet<>();
+        Iterator<Coupon> it = coupons.iterator();
+        while (it.hasNext()) {
+            Coupon coupon = it.next();
+            if(coupon.getExpireAt().after(new Date())){
+                validCouponList.add(coupon);
+            }
+        }
+        return validCouponList;
+    }
+
+    public Set<Coupon> invalidCouponList(){
+        Set<Coupon> invalidCouponList = new HashSet<>();
+        Iterator<Coupon> it = coupons.iterator();
+        while(it.hasNext()){
+            Coupon coupon = it.next();
+            if(coupon.getExpireAt().before(new Date())){
+                invalidCouponList.add(coupon);
+            }
+        }
+        return invalidCouponList;
+    }
+
+    public Set<Coupon> getValidCouponList(){
+       return validCouponList();
+
+    }
+    public Set<Coupon> getInvalidCouponList(){
+        return invalidCouponList();
+    }
+    public Boolean buyProduct(Product product, final Integer num) {
+        Boolean isSuccess = false;
+        Integer pay = product.getPrice() * num;
+
+        if (buySuccess(product.getPrice() * num)) {
+            if (!getCouponsForProduct(product, num).isEmpty()){
+                Coupon minCoupon = selectMinCoupon();
+                pay -= minCoupon.getValue();
+                coupons.remove(minCoupon);
+            }
+            products.add(product);
+            point += getPointForProduct(product, num);
+            asset -= pay;
+            isSuccess = true;
+        }
+        return isSuccess;
     }
 }
