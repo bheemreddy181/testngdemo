@@ -120,10 +120,9 @@ public class User {
     }
 
     public Integer getPointForProduct(Product product, Integer num){
-        Integer point = 0;
-        Integer totalPrice = product.getPrice()*num;
-        point = totalPrice;
-        return point;
+        return Point.checkIfProHasPoints(product)?
+             Point.getPoints(product, num):0;
+
     }
 
 

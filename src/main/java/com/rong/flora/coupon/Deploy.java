@@ -44,7 +44,9 @@ public class Deploy {
             System.out.println(user.getAsset());
             System.out.println(user.getProduct());
 
-            Boolean it = user.buyProduct(new Product("Coffee", 15),10);
+            Product product = new Product("Coffee", 15);
+            Point.addProToRule(product);
+            Boolean it = user.buyProduct(product,10);
 
             System.out.println(user.getProduct());
             System.out.println(user.getAsset());
