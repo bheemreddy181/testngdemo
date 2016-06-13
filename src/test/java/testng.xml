@@ -5,9 +5,12 @@
         <classes>
            <!--<class name="com.rong.flora.rest_api.TestRestAPI"/>-->
             <!--<class name="com.rong.flora.test_case.TestLenovoServer"/>-->
-            <!--<class name="com.rong.flora.test_case.TestAbstractTea"/>-->
+            <class name="com.rong.flora.test_case.TestAbstractTea"/>
+                <methods>
+
+                </methods>
             <!--<class name="com.rong.flora.rest_api.TestCouponAPI"/>-->
-            <class name="com.rong.flora.rest_api.TestNewbieCoupon"/>
+            <!--<class name="com.rong.flora.rest_api.TestNewbieCoupon"/>-->
         </classes>
     </test>
     <parameter name="id" value="1"/>

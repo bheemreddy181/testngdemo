@@ -43,7 +43,11 @@ public class Deploy {
             System.out.println(user.getCoupon());
             System.out.println(user.getAsset());
             System.out.println(user.getProduct());
+            user.addFriend(new User("jerry", 30,"male",123,100));
+            System.out.println(user);
 
+            user.addFriend(new User("jack", 20,"male",456,200));
+            System.out.println(user);
             Product product = new Product("Coffee", 15);
             Point.addProToRule(product);
             Boolean it = user.buyProduct(product,10);

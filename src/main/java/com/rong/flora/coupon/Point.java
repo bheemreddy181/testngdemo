@@ -9,14 +9,20 @@ import java.util.Set;
  */
 public class Point {
     private Product product;
-    private Integer minPrice;
-    private Integer maxPrice;
+    private static Integer minPrice;
+    private static Integer maxPrice;
+    private static Integer priceStep;
+    private static Integer pointStep;
     private static Set<Product> rules;
+
 
 
     static {
         rules = new HashSet<>();
-
+        minPrice = 100;
+        maxPrice = 500;
+        pointStep = 5;
+        priceStep = 100;
     }
 
     public Product getProduct() {
@@ -25,22 +31,6 @@ public class Point {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public Integer getMinPrice() {
-        return minPrice;
-    }
-
-    public void setMinPrice(Integer minPrice) {
-        this.minPrice = minPrice;
-    }
-
-    public Integer getMaxPrice() {
-        return maxPrice;
-    }
-
-    public void setMaxPrice(Integer maxPrice) {
-        this.maxPrice = maxPrice;
     }
 
     public static Set<Product> getRules() {
@@ -63,15 +53,15 @@ public class Point {
         Integer points = 0;
         Integer totalPrice = product.getPrice()*num;
 
-        if(totalPrice < 100){
+        if(totalPrice < minPrice){
             return points;
         }
-        if(100  <= totalPrice && totalPrice < 500){
+        if(minPrice  <= totalPrice && totalPrice < maxPrice){
 
-            points = (totalPrice/100)*10;
+            points = (totalPrice/priceStep)*pointStep;
         }
-        if( totalPrice >= 500){
-            points =100+((totalPrice-500)/100)*20;
+        if( totalPrice >= maxPrice){
+            points = minPrice + ((totalPrice - maxPrice)/priceStep)*2*pointStep;
         }
         return points;
     }

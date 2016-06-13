@@ -14,6 +14,7 @@ public class User {
     private Set<Coupon> coupons;
     private List<Product> products;
     private Integer point;
+    private Set<User> friends;
 
     public User(String name, Integer age, String gender, Integer id, Integer asset ){
         this.name = name;
@@ -24,6 +25,7 @@ public class User {
         this.point = 0;
         this.coupons = new HashSet<>();
         this.products = new LinkedList<>();
+        this.friends = new HashSet<>();
 
     }
     public String getGender() {
@@ -78,6 +80,14 @@ public class User {
         this.asset = asset;
     }
 
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -89,6 +99,7 @@ public class User {
                 ", coupons=" + coupons +
                 ", products=" + products +
                 ", point=" + point +
+                ", friends=" + friends +
                 '}';
     }
 
@@ -191,5 +202,26 @@ public class User {
             isSuccess = true;
         }
         return isSuccess;
+    }
+
+    public Set<User> addFriend(User user){
+        friends.add(user);
+        return friends;
+    }
+
+    public Boolean sendPointToFriend(User user, Integer points){
+
+        if(friends.contains(user) && point >= points){
+            point -= points;
+            user.addPoint(points);
+            return true;
+
+        }
+        return false;
+    }
+
+    public Integer addPoint(Integer point){
+        this.point += point;
+        return point;
     }
 }
