@@ -214,6 +214,7 @@ public class User {
         if(friends.contains(user) && point >= points){
             point -= points;
             user.addPoint(points);
+            PointTransInfo.addTransInfo(this, user, points);
             return true;
 
         }
