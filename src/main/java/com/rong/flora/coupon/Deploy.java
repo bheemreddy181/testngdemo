@@ -35,37 +35,39 @@ public class Deploy {
     }
 
     public static void main(String[] args){
-        User user = new User("lee", 20, "male",1,1000);
-        try{
-            user.addCouponList(Coupon.makeCoupon(1, 1, 100, DateUtil.getDateFromString("2016-06-30", "yyyy-MM-dd")));
-            user.addCouponList(Coupon.makeCoupon(1, 1, 20, DateUtil.getDateFromString("2016-06-01", "yyyy-MM-dd")));
-            //Set<Coupon> couponSet= user.getCouponsForProduct(new Product("Coffee", 18), 10);
-//            System.out.println(user.getCoupon());
-//            System.out.println(user.getAsset());
-//            System.out.println(user.getProduct());
-            User jerry = new User("jerry", 30,"male",123,100);
-            user.addFriend(jerry);
-//            System.out.println(user);
-
-            User jack = new User("jack", 20,"male",456,200);
-            user.addFriend(jack);
-//            System.out.println(user);
-            System.out.println(PointTransInfo.getPointTransInfos());
-            Product product = new Product("Coffee", 15);
-            Point.addProToRule(product);
-            Boolean it = user.buyProduct(product,10);
-
-            user.sendPointToFriend(jack, 5);
-            System.out.println(PointTransInfo.getPointTransInfos());
-
-//            System.out.println(user.getProduct());
-//            System.out.println(user.getAsset());
-//            System.out.println(user.getCoupon());
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
-//        System.out.println(user);
+        Point p = new Point();
+        System.out.println(p);
+//        User user = new User("lee", 20, "male",1,1000);
+//        try{
+//            user.addCouponList(Coupon.makeCoupon(1, 1, 100, DateUtil.getDateFromString("2016-06-30", "yyyy-MM-dd")));
+//            user.addCouponList(Coupon.makeCoupon(1, 1, 20, DateUtil.getDateFromString("2016-06-01", "yyyy-MM-dd")));
+//            //Set<Coupon> couponSet= user.getCouponsForProduct(new Product("Coffee", 18), 10);
+////            System.out.println(user.getCoupon());
+////            System.out.println(user.getAsset());
+////            System.out.println(user.getProduct());
+//            User jerry = new User("jerry", 30,"male",123,100);
+//            user.addFriend(jerry);
+////            System.out.println(user);
+//
+//            User jack = new User("jack", 20,"male",456,200);
+//            user.addFriend(jack);
+////            System.out.println(user);
+//            System.out.println(PointTransInfo.getPointTransInfos());
+//            Product product = new Product("Coffee", 15);
+//            Point.addProToRule(product);
+//            Boolean it = user.buyProduct(product,10);
+//
+//            user.sendPointToFriend(jack, 5);
+//            System.out.println(PointTransInfo.getPointTransInfos());
+//
+////            System.out.println(user.getProduct());
+////            System.out.println(user.getAsset());
+////            System.out.println(user.getCoupon());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//        }
+//
+////        System.out.println(user);
     }
 }
