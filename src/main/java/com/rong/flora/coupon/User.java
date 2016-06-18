@@ -224,5 +224,6 @@ public class User {
     public Integer addPoint(Integer point){
         this.point += point;
         return point;
+
     }
 }

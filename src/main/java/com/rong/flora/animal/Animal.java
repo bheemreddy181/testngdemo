@@ -16,6 +16,29 @@ public abstract class  Animal {
         this.mouse = mouse;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Animal animal = (Animal) o;
+
+        if (mouse != null ? !mouse.equals(animal.mouse) : animal.mouse != null) return false;
+        if (eyes != null ? !eyes.equals(animal.eyes) : animal.eyes != null) return false;
+        if (ears != null ? !ears.equals(animal.ears) : animal.ears != null) return false;
+        return legs != null ? legs.equals(animal.legs) : animal.legs == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mouse != null ? mouse.hashCode() : 0;
+        result = 31 * result + (eyes != null ? eyes.hashCode() : 0);
+        result = 31 * result + (ears != null ? ears.hashCode() : 0);
+        result = 31 * result + (legs != null ? legs.hashCode() : 0);
+        return result;
+    }
+
     public String getEars() {
         return ears;
     }

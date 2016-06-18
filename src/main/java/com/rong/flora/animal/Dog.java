@@ -31,8 +31,19 @@ public class Dog extends Animal{
 
     public static void main(String[] args){
 
-        Animal animal = new Dog("ears", "eyes", "legs", "mouse");
-        animal.run("jump");
+        Animal dog = new Dog("ears", "eyes", "legs", "mouse");
+        Animal cat = new Cat("ears", "eyes", "legs", "mouse","miaomiao", "cat1");
+        Cat cat2 = new Cat("ears", "eyes", "legs", "mouse", "fish", "cat2");
+        CatFood catFood = new CatFood("pepper", 100);
+        dog.run("jump 1");
+        dog.run("jump 2");
+        cat.run("jump");
+        cat.eat("fish");
+        cat2.changeMiao("hehe");
+        cat2.eatFood(catFood);
+        cat2.produceCat(3);
+        System.out.println(cat2.getChild());
+        System.out.println(cat2.getChildren());
     }
 
 }
