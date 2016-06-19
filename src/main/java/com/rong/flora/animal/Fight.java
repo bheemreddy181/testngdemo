@@ -12,17 +12,30 @@ public class Fight {
     private Animal fighter1;
     private  Animal fighter2;
     private Boolean result;
+    private Integer duration;
+    private static final Integer MAX_DURATION = 60;
     private static final String WINKEY = "win" ;
     private static final String LOSEKEY = "lose" ;
+    private static final Integer TENMIN = 10;
+    private static final Integer TWENTYMIN = 20;
+    private static final Integer FORTYMIN = 40;
+    private static final Integer ONEHOUR = 60;
+
 
     private static List<Fight> info;
     private static Map<String ,List<Fight>> infoWithResult;
+    private static Map<Integer ,List<Fight>> infoWithDuration;
 
     static {
         info = new LinkedList<>();
         infoWithResult = new HashMap<>();
+        infoWithDuration = new HashMap<>();
         infoWithResult.put(WINKEY, new LinkedList<>());
         infoWithResult.put(LOSEKEY, new LinkedList<>());
+        infoWithDuration.put(TENMIN, new LinkedList<>());
+        infoWithDuration.put(TWENTYMIN, new LinkedList<>());
+        infoWithDuration.put(FORTYMIN, new LinkedList<>());
+        infoWithDuration.put(ONEHOUR, new LinkedList<>());
 
     }
 
@@ -32,6 +45,7 @@ public class Fight {
         this.judge = judge;
         this.fighter1 = fighter1;
         this.fighter2 = fighter2;
+        this.duration = 0;
     }
 
     public static Map<String, List<Fight>> getInfoWithResult() {
@@ -118,8 +132,12 @@ public class Fight {
         } else {
             this.result = fighter1 instanceof Cat? chance != 2 : chance ==2;
         }
+        this.duration = new Random().nextInt(MAX_DURATION);
+
+        // add fight to statistics info list
         Fight.info.add(this);
         Fight.infoWithResult.get(result ?WINKEY: LOSEKEY).add(this);
+        this.addFightToDurationMap();
         return this.result;
 
     }
@@ -189,6 +207,18 @@ public class Fight {
             return fight.getJudge().equals(judge);}).forEach(fights::add);
 
         return fights;
+    }
+
+    private void addFightToDurationMap(){
+        if(this.duration <= TENMIN ){
+            infoWithDuration.get(TENMIN).add(this);
+        }else if (this.duration >= 10 && this.duration <= 20){
+            infoWithDuration.get(TWENTYMIN).add(this);
+        }else if(this.duration >= 20 && this.duration <= 40){
+            infoWithDuration.get(FORTYMIN).add(this);
+        }else if(this.duration >= 40 && this.duration < 60){
+            infoWithDuration.get(ONEHOUR).add(this);
+        }
     }
 
     public static void main(String[] args){
