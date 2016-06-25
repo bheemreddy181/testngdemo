@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by lafengnan on 16/6/20.
  */
-public class Fruit {
+public class Fruit implements Juice{
     private Map<String ,List<String>> info;
     private List<Map<String, Integer>> name;
     private static List<Fruit> fruits;
@@ -73,16 +73,31 @@ public class Fruit {
         return fruits;
     }
 
+    public void makeJuice(){
+        System.out.println(" make juice");
+    }
+
+    public void makeMixedJuice(List<Fruit> fruitList){
+        fruits = fruitList;
+        System.out.println("1" + fruitList.toString());
+
+    }
+
+
     public static void main(String[] args){
 
         Fruit fruit = new Fruit();
         Fruit fruit1 = new Fruit();
+        Juice juice = new Fruit();
+
         fruit.addSingleInfo("apple", "like u");
         fruit.addSingleInfo("orange", "sunny");
 
         System.out.println(fruit);
         fruit.deleteSingleInfo("apple", "like u");
         fruit.deleteSingleInfo("kiwi", "like u");
+        juice.makeJuice();
+        juice.makeMixedJuice(fruits);
         System.out.println(Fruit.getFruit());
     }
 
