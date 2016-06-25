@@ -20,8 +20,6 @@ public class Fight {
     private static final Integer TWENTYMIN = 20;
     private static final Integer FORTYMIN = 40;
     private static final Integer ONEHOUR = 60;
-
-
     private static List<Fight> info;
     private static Map<String ,List<Fight>> infoWithResult;
     private static Map<Integer ,List<Fight>> infoWithDuration;

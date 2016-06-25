@@ -1,7 +1,5 @@
 package com.rong.flora.practice;
 
-import com.rong.flora.friday.GreenTea;
-import sun.jvm.hotspot.oops.FieldType;
 
 import java.util.LinkedList;
 import java.util.List;
