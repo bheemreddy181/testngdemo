@@ -5,11 +5,12 @@
         <classes>
            <!--<class name="com.rong.flora.rest_api.TestRestAPI"/>-->
             <!--<class name="com.rong.flora.test_case.TestLenovoServer"/>-->
-            <class name="com.rong.flora.test_case.TestAbstractTea"/>
+            <!--<class name="com.rong.flora.test_case.TestAbstractTea"/>-->
+            <class name="com.rong.flora.rest_api.TestCouponAPI">
                 <methods>
-
+                    <include name="testGetCoupon"/>
                 </methods>
-            <!--<class name="com.rong.flora.rest_api.TestCouponAPI"/>-->
+            </class>
             <!--<class name="com.rong.flora.rest_api.TestNewbieCoupon"/>-->
         </classes>
     </test>
