@@ -3,10 +3,13 @@ package com.rong.flora.practice;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.sun.tools.javac.jvm.Gen;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.IOException;
 import java.util.*;
+
+import static com.rong.flora.practice.Gender.FEMALE;
 
 /**
  * Created by lafengnan on 16/7/6.
@@ -33,9 +36,9 @@ public class Statistics {
     }
 
     public Map<String, Integer> login(User user){
-        String gender = user.getGender();
+        Gender gender = user.getGender();
         Integer cnt = map.getOrDefault(gender, 0) ;
-        map.put(gender, ++cnt);
+        map.put(gender.name(), ++cnt);
         userSet.add(user);
 
         return map;
@@ -45,13 +48,13 @@ public class Statistics {
 
         Statistics.userSet.forEach(user -> {
             switch (user.getGender()) {
-                case "f":
+                case FEMALE:
                     break;
-                case "m":
+                case MALE:
                     break;
             }
             if(user.getName().contains(nm)) {
-                if(user.getGender().equals("f")){
+                if(user.getGender().equals(FEMALE)) {
                     user.addPoint(p);
                 }
                 user.addPoint(p);
@@ -69,8 +72,10 @@ public class Statistics {
         Statistics statistics = new Statistics();
         for(int i = 0; i < 10; i++){
             String nm = RandomStringUtils.random(5,"qwertyuio");
-            String gen = RandomStringUtils.random(1,"fm" );
-            User user = new User(gen, nm, 0);
+            Random random = new Random();
+            Gender gender =  Gender.valueOf(random.nextInt(1));
+//            String gen = RandomStringUtils.random(1,"fm" );
+            User user = new User(gender, nm, 0);
             statistics.login(user);
 
         }
@@ -97,21 +102,21 @@ public class Statistics {
 
 class User{
     private String name;
-    private String gender;
+    private Gender gender;
+//    private String gender;
     private Integer point;
 
-    public User(String gender, String name, Integer point) {
+    public User(Gender gender, String name, Integer point) {
         this.gender = gender;
         this.name = name;
         this.point = point;
-
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
