@@ -11,7 +11,8 @@ public enum CaseStatus {
     RUNNING(1),
     SUCCESS(2),
     FAIL(3),
-    UNKNOWN(-1);
+    BROKEN(4),
+    UNKNOWN(5);
 
     private Integer value;
 
