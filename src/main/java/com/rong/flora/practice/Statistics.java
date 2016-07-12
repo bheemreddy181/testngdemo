@@ -86,8 +86,24 @@ public class Statistics {
                 .stream()
                 .filter(user -> user.getPoint() > 0)
                 .forEach(System.out::println);
+//        Statistics statistics = new Statistics();
+//        for(int i = 0; i < 10; i++){
+//            String nm = RandomStringUtils.random(5,"qwertyuio");
+//            String gen = RandomStringUtils.random(1,"fm" );
+//            User user = new User(gen, nm, 0);
+//            statistics.login(user);
+//
+//        }
+//
+//        statistics.sendPoints("i",10, "f");
+//        System.out.println(Statistics.getMap());
+//        Statistics.getUserSet()
+//                .stream()
+//                .filter(user -> user.getPoint() > 0)
+//                .forEach(System.out::println);
 
         OkHttpClient client = MyOkHttpClient.getClient();
+//        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://www.lu.com")
                 .build();
@@ -110,6 +126,7 @@ class User{
         this.gender = gender;
         this.name = name;
         this.point = point;
+
     }
 
     public Gender getGender() {
