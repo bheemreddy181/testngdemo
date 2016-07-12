@@ -66,29 +66,30 @@ public class Statistics {
 
 
     public static void main(String[] args){
-        Statistics statistics = new Statistics();
-        for(int i = 0; i < 10; i++){
-            String nm = RandomStringUtils.random(5,"qwertyuio");
-            String gen = RandomStringUtils.random(1,"fm" );
-            User user = new User(gen, nm, 0);
-            statistics.login(user);
-
-        }
-
-        statistics.sendPoints("i",10, "f");
-        System.out.println(Statistics.getMap());
-        Statistics.getUserSet()
-                .stream()
-                .filter(user -> user.getPoint() > 0)
-                .forEach(System.out::println);
+//        Statistics statistics = new Statistics();
+//        for(int i = 0; i < 10; i++){
+//            String nm = RandomStringUtils.random(5,"qwertyuio");
+//            String gen = RandomStringUtils.random(1,"fm" );
+//            User user = new User(gen, nm, 0);
+//            statistics.login(user);
+//
+//        }
+//
+//        statistics.sendPoints("i",10, "f");
+//        System.out.println(Statistics.getMap());
+//        Statistics.getUserSet()
+//                .stream()
+//                .filter(user -> user.getPoint() > 0)
+//                .forEach(System.out::println);
 
         OkHttpClient client = MyOkHttpClient.getClient();
+//        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://www.lu.com")
+                .url("https://10.240.199.210")
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            System.out.println(response.body().toString());
+            System.out.println(response.body().string());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
