@@ -3,7 +3,6 @@ package com.rong.flora.practice;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.sun.tools.javac.jvm.Gen;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.IOException;
