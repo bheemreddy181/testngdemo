@@ -23,7 +23,7 @@ public class Message {
         int len = Integer.toBinaryString(sendChannel).length();
         String padding = "";
         for (int i = 0; i < 8 - len; i++) {
-            padding += "0";
+            padding += 0;
         }
         System.out.println("sendChannel: " + padding + Integer.toBinaryString(sendChannel));
     }
@@ -75,6 +75,47 @@ public class Message {
     public static void main(String[] args){
         Message message = Message.newMessage("kiko", Byte.valueOf(("7")));
         message.sendMessage("1","2","3","4");
+        Integer a = 127;
+        Integer b = 127;
+        Integer c = 10;
+        Integer d = 10;
+
+        {
+            Integer o = 1;
+        }
+        System.out.println(a == b);
+        System.out.println(c == d);
+
+        class Person {
+            private String name;
+            Integer age;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(Person this, String name) {
+                this.name = name;
+            }
+
+            public Integer getAge() {
+                return age;
+            }
+
+            public void setAge(Integer age) {
+                this.age = age;
+            }
+        }
+
+        Person p1 = new Person();
+        Person p2 = new Person();
+        Person p3 = new Person();
+
+        p1.setName("123");
+        p2.setName("123");
+        p3.setName("123");
+
+
     }
 
     enum CHANNEL {

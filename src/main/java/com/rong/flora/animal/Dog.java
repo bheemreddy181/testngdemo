@@ -1,5 +1,8 @@
 package com.rong.flora.animal;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Created by lafengnan on 16/6/15.
  */
@@ -44,6 +47,13 @@ public class Dog extends Animal{
         cat2.produceCat(3);
         System.out.println(cat2.getChild());
         System.out.println(cat2.getChildren());
+        Field[] catFields = cat.getClass().getDeclaredFields();
+        Method[] methods = cat.getClass().getDeclaredMethods();
+        for (Field field : catFields) {
+            System.out.println(field);
+        }
+        for (Method method : methods) {
+            System.out.println(method);
+        }
     }
-
 }
