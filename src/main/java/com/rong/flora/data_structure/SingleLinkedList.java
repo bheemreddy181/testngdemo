@@ -1,7 +1,8 @@
 package com.rong.flora.data_structure;
 
 
-import java.security.NoSuchAlgorithmException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by rong 16/10/13.
@@ -15,6 +16,19 @@ public class SingleLinkedList {
         head = null;
         tail = null;
         len = 0;
+    }
+
+    public Integer getLen(){
+        return len;
+    }
+
+    public Integer getHead(){
+
+        return head.value;
+    }
+
+    public Integer getTail(){
+        return tail.value;
     }
 
     public Boolean append(Integer value){
@@ -59,6 +73,57 @@ public class SingleLinkedList {
 
     }
 
+    public Integer search(Integer index){
+        if(index < 0 || index >= len) throw new RuntimeException("index:" + index +  " , size:" + len);
+        Node p = head;
+        for(int i = 0; i< index; i++){
+            p = p.next;
+        }
+        return p.value;
+    }
+
+    public void swap(Integer left, Integer right){
+
+        if(left < 0 || right < 0 || left >= len || right >= len)
+            throw new RuntimeException("left:" + left + " right:" + right + ", len: " + len);
+        if(left > right){
+            Integer i = left;
+            left = right;
+            right = i;
+        }
+        Node p = head;
+        Node q = head;
+        for (int k = 0; k < right; k++ ){
+            q = q.next;
+            if (k >= right - left) p = p.next;
+        }
+//        for (int i = 0; i < left; i++){
+//            p = p.next;
+//
+//        }
+//        Node q = p;
+//        for (int j = 0; j < right - left; j++){
+//            q = q.next;
+//        }
+        Integer k = p.value;
+        p.value = q.value;
+        q.value = k;
+
+    }
+
+    public Integer seekMiddle(){
+        if(len == 0) throw new RuntimeException("likedlist is empty");
+        Node slow = head;
+        Node quick = slow.next;
+        while (quick != null) {
+            if (quick.next == null) break;
+                slow = slow.next;
+                quick = quick.next.next;
+        }
+
+        return slow.value;
+    }
+
     public Boolean delete(Integer index){
         // if linkedlist is empty
         if (len == 0 || index >= len) return false;
@@ -88,18 +153,59 @@ public class SingleLinkedList {
         return true;
     }
 
-    public static void main(String[] args){
-        SingleLinkedList list = new SingleLinkedList();
-        list.insert(1);
-        list.insert(2);
-        list.insert(3);
-        list.insert(4);
-        list.insert(5);
-        list.show();
-        list.delete(0);
-        list.show();
+    public void testSeekMiddle(){
+        seekMiddle();
+        System.out.println(seekMiddle());
+        show();
     }
 
+    public void testSearch(int i) {
+        System.out.println(search(i));
+    }
+
+    public void testInsert() {
+        insert(1);
+        insert(2);
+        insert(3);
+        insert(4);
+//        insert(5);
+        show();
+    }
+
+    public void testSwap(){
+        swap(1,2);
+        show();
+        swap(2,1);
+        show();
+        swap(4,4);
+        show();
+    }
+    public void testAppend() {
+        append(1);
+        append(2);
+        append(3);
+        append(4);
+        append(5);
+        show();
+    }
+
+    public void testDelete(int i) {
+        delete(i);
+        show();
+    }
+
+    public static void main(String[] args){
+        SingleLinkedList list = new SingleLinkedList();
+//        list.testSearch(0);
+        list.testInsert();
+        list.testSearch(0);
+//        list.testSearch(10);
+//        list.testSwap();
+        list.testSeekMiddle();
+//        list.testDelete(0);
+//        list.testAppend();
+
+    }
 }
 
 class Node{
