@@ -34,6 +34,11 @@ public class Sort {
     public static void main(String... args){
         int[] data = {1,2,4,5,2,3};
         Sort sort = new Sort();
+        Sort sort1 = sort;
+        Sort sort2 = new Sort();
+        System.out.println(sort);
+        System.out.println(sort1);
+        System.out.println(sort2);
         sort.quickSort(data,0,data.length-1);
         for(int i : data){
            System.out.println(i);
