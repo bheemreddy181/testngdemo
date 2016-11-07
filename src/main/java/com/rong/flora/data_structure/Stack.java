@@ -3,13 +3,13 @@ package com.rong.flora.data_structure;
 /**
  * Created by rongwf1 on 2016/10/16.
  */
-public class Stack {
-    private SingleLinkedList store;
+public class Stack<T> {
+    private SingleLinkedList<T> store;
     private int capacity;
 
 
     public Stack(int capacity){
-        store = new SingleLinkedList();
+        store = new SingleLinkedList<T>();
         this.capacity = capacity;
     }
 
@@ -21,8 +21,8 @@ public class Stack {
         return store.getLen().equals(0);
     }
 
-    public int pop() {
-        Integer value;
+    public T pop() {
+        T value;
         try {
             value = store.search(0);
             store.delete(0);
@@ -33,7 +33,7 @@ public class Stack {
     }
 
 
-    public void push(int v) {
+    public void push(T v) {
         if (store.getLen() < capacity)
         {
             store.insert(v);
@@ -50,8 +50,8 @@ public class Stack {
         }
     }
 
-    public int top() {
-        int v = 0;
+    public T top() {
+        T v = null;
         try {
             v = store.getHead();
         } catch (NullPointerException e){
@@ -60,8 +60,8 @@ public class Stack {
         return v;
     }
 
-    public int bottom() {
-        int v = 0;
+    public T bottom() {
+        T v = null;
         try {
             v = store.getTail();
         } catch (NullPointerException e) {
@@ -74,7 +74,7 @@ public class Stack {
         store.show();
     }
     public static void main(String... args){
-        Stack stack = new Stack();
+        Stack<Integer> stack = new Stack<>();
         System.out.println(stack.isEmpty());
         stack.show();
         System.out.println(stack.pop());

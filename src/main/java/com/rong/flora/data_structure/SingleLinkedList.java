@@ -1,42 +1,39 @@
 package com.rong.flora.data_structure;
 
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Created by rong 16/10/13.
  */
-public class SingleLinkedList {
-    private Node head;
-    private Node tail;
+public class SingleLinkedList<T> {
+    private Node<T> head;
+    private Node<T> tail;
     private Integer len;
 
-    public SingleLinkedList(){
+    public SingleLinkedList() {
         head = null;
         tail = null;
         len = 0;
     }
 
-    public Integer getLen(){
+    public Integer getLen() {
         return len;
     }
 
-    public Integer getHead(){
+    public T getHead() {
 
         return head.value;
     }
 
-    public Integer getTail(){
+    public T getTail() {
         return tail.value;
     }
 
-    public Boolean append(Integer value){
-        Node node = new Node(value);
-        if(node == null) return false;
+    public Boolean append(T value) {
+        Node<T> node = new Node<>(value);
+        if (node == null) return false;
 
         // linkedlist is empty
-        if(head == null){
+        if (head == null) {
             head = node;
             tail = node;
         } else {
@@ -47,10 +44,10 @@ public class SingleLinkedList {
         return true;
     }
 
-    public Boolean insert(Integer value){
-        Node node = new Node(value);
-        if(node == null) return false;
-        if(head == null){
+    public Boolean insert(T value) {
+        Node<T> node = new Node<>(value);
+        if (node == null) return false;
+        if (head == null) {
             head = node;
             tail = node;
             len++;
@@ -62,9 +59,9 @@ public class SingleLinkedList {
         return true;
     }
 
-    public void show(){
+    public void show() {
         Node p = head;
-        while (p != null){
+        while (p != null) {
             System.out.print(p.value);
             System.out.print("->");
             p = p.next;
@@ -73,27 +70,27 @@ public class SingleLinkedList {
 
     }
 
-    public Integer search(Integer index){
-        if(index < 0 || index >= len) throw new RuntimeException("index:" + index +  " , size:" + len);
-        Node p = head;
-        for(int i = 0; i< index; i++){
+    public T search(Integer index) {
+        if (index < 0 || index >= len) throw new RuntimeException("index:" + index + " , size:" + len);
+        Node<T> p = head;
+        for (int i = 0; i < index; i++) {
             p = p.next;
         }
         return p.value;
     }
 
-    public void swap(Integer left, Integer right){
+    public void swap(Integer left, Integer right) {
 
-        if(left < 0 || right < 0 || left >= len || right >= len)
+        if (left < 0 || right < 0 || left >= len || right >= len)
             throw new RuntimeException("left:" + left + " right:" + right + ", len: " + len);
-        if(left > right){
+        if (left > right) {
             Integer i = left;
             left = right;
             right = i;
         }
-        Node p = head;
-        Node q = head;
-        for (int k = 0; k < right; k++ ){
+        Node<T> p = head;
+        Node<T> q = head;
+        for (int k = 0; k < right; k++) {
             q = q.next;
             if (k >= right - left) p = p.next;
         }
@@ -105,46 +102,46 @@ public class SingleLinkedList {
 //        for (int j = 0; j < right - left; j++){
 //            q = q.next;
 //        }
-        Integer k = p.value;
+        T k = p.value;
         p.value = q.value;
         q.value = k;
 
     }
 
-    public Integer seekMiddle(){
-        if(len == 0) throw new RuntimeException("likedlist is empty");
-        Node slow = head;
-        Node quick = slow.next;
+    public T seekMiddle() {
+        if (len == 0) throw new RuntimeException("likedlist is empty");
+        Node<T> slow = head;
+        Node<T> quick = slow.next;
         while (quick != null) {
             if (quick.next == null) break;
-                slow = slow.next;
-                quick = quick.next.next;
+            slow = slow.next;
+            quick = quick.next.next;
         }
 
         return slow.value;
     }
 
-    public Boolean delete(Integer index){
+    public Boolean delete(Integer index) {
         // if linkedlist is empty
         if (len == 0 || index >= len) return false;
 
         Node p = head;
         // delete head
-        if(index == 0) {
+        if (index == 0) {
             head = head.next;
             p.next = null;
             // linkedlist just has 1 node
-            if (head == null){
+            if (head == null) {
                 tail = null;
             }
         } else {
-            for(int i = 1; i < index; i++) {
+            for (int i = 1; i < index; i++) {
                 p = p.next;
             }
             Node q = p.next;
             p.next = p.next.next;
             //delete tail
-            if (q.next == null){
+            if (q.next == null) {
                 tail = p;
             } else {
                 q.next = null;
@@ -153,68 +150,88 @@ public class SingleLinkedList {
         return true;
     }
 
-    public void testSeekMiddle(){
-        seekMiddle();
-        System.out.println(seekMiddle());
-        show();
-    }
-
-    public void testSearch(int i) {
-        System.out.println(search(i));
-    }
-
-    public void testInsert() {
-        insert(1);
-        insert(2);
-        insert(3);
-        insert(4);
-//        insert(5);
-        show();
-    }
-
-    public void testSwap(){
-        swap(1,2);
-        show();
-        swap(2,1);
-        show();
-        swap(4,4);
-        show();
-    }
-    public void testAppend() {
-        append(1);
-        append(2);
-        append(3);
-        append(4);
-        append(5);
-        show();
-    }
-
-    public void testDelete(int i) {
-        delete(i);
-        show();
+    @Override
+    public String toString() {
+        return "SingleLinkedList{" +
+                "head=" + head +
+                ", tail=" + tail +
+                ", len=" + len +
+                '}';
     }
 
     public static void main(String[] args){
-        SingleLinkedList list = new SingleLinkedList();
+        TestSingleLinkedList test = new TestSingleLinkedList();
 //        list.testSearch(0);
-        list.testInsert();
-        list.testSearch(0);
-//        list.testSearch(10);
-//        list.testSwap();
-        list.testSeekMiddle();
-//        list.testDelete(0);
-//        list.testAppend();
+        test.testInsert();
+        test.testSearch(0);
+//        test.testSearch(10);
+//        test.testSwap();
+        test.testSeekMiddle();
+//        test.testDelete(0);
+//        test.testAppend();
 
     }
 }
 
-class Node{
-    Node next;
-    Integer value;
+class Node<T>{
+    Node<T> next;
+    T value;
 
-    public Node(Integer value){
+    public Node(T value){
         this.next = null;
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "value=" + value +
+                '}';
+    }
 }
+
+class TestSingleLinkedList {
+    private SingleLinkedList<Integer> list = new SingleLinkedList<>();
+    public void testSeekMiddle(){
+        list.seekMiddle();
+        System.out.println(list.seekMiddle());
+        list.show();
+    }
+
+    public void testSearch(int i) {
+        System.out.println(list.search(i));
+    }
+
+    public void testInsert() {
+        list.insert(1);
+        list.insert(2);
+        list.insert(3);
+        list.insert(4);
+//        insert(5);
+        list.show();
+    }
+
+    public void testSwap(){
+        list.swap(1,2);
+        list.show();
+        list.swap(2,1);
+        list.show();
+        list.swap(4,4);
+        list.show();
+    }
+    public void testAppend() {
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        list.append(4);
+        list.append(5);
+        list.show();
+    }
+
+    public void testDelete(int i) {
+        list.delete(i);
+        list.show();
+    }
+}
+
+
