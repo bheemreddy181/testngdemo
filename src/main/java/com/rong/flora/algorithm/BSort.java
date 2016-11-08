@@ -19,14 +19,24 @@ public class BSort {
             System.out.println("j =" + j);
             if (data[j] <= data[high]){
                 i++;
-                data[i] ^= data[j];
-                data[j] ^= data[i];
-                data[i] ^= data[j];
+                if (i !=j){
+                    data[i] ^= data[j];
+                    data[j] ^= data[i];
+                    data[i] ^= data[j];
+                }
+//                Integer tmp = data[i];
+//                data[i] = data[j];
+//                data[j] = tmp;
+                System.out.println("data[i]= " +data[i]);
+                System.out.println("data[j]= " +data[j]);
             }
         }
         data[i+1] ^= data[high];
         data[high] ^= data[i+1];
         data[i+1] ^= data[high];
+//        Integer tmp = data[i+1];
+//        data[i+1] = data[high];
+//        data[high] = tmp;
         return i+1;
     }
 
@@ -37,5 +47,12 @@ public class BSort {
         for (Integer k: data){
             System.out.print(k);
         }
+        Integer a = 1;
+        Integer b = 2;
+        a ^= b;
+        b ^= a;
+        a ^= b;
+        System.out.println("a= "+ a);
+        System.out.println("b= "+ b);
     }
 }
