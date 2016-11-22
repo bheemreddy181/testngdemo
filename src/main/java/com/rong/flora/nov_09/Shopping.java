@@ -43,31 +43,43 @@ public class Shopping implements IShopping {
     }
 
     public static void main(String... args){
-        IShopping shop = new Shopping("op", "1");
+//        IShopping shop = new Shopping("op", "1");
 
-        shop.pay(shop.select(DRINK), new IOnComplete() {
-                    @Override
-                    public void printReceipt(String prodName, String merchant, int amount) {
-                        System.out.println("prodName = " + prodName + "merchant =" + merchant + "amount =" + amount);
-                    }
-                },
-                new IOnFailure() {
-                    @Override
-                    public void cancelTransaction(int id, int amount, String merchant) {
-                        System.out.println("11.9");
-                    }
-                }
-        );
+        IShopping shopping = new IShopping() {
+            @Override
+            public Integer select(Product product) {
+                return null;
+            }
 
-        shop.pay(10000,
-                ((prodName, merchant, amount) -> System.out.println("prodName = "+ prodName + "merchant =" + merchant + "amount =" + amount)),
-                ((id, amount,merchant)-> System.out.println("trump")));
+            @Override
+            public boolean pay(int amount, IOnComplete onComplete, IOnFailure onFailure) {
+                return false;
+            }
+        };
 
-        Map<String, Object> ret = new HashMap<>();
-
-        ret.put("error", FORBIDDEN);
-        ret.put("description", FORBIDDEN);
-        ret.put("ok", OK);
-System.out.println(ret);
+//        shop.pay(shop.select(DRINK), new IOnComplete() {
+//                    @Override
+//                    public void printReceipt(String prodName, String merchant, int amount) {
+//                        System.out.println("prodName = " + prodName + "merchant =" + merchant + "amount =" + amount);
+//                    }
+//                },
+//                new IOnFailure() {
+//                    @Override
+//                    public void cancelTransaction(int id, int amount, String merchant) {
+//                        System.out.println("11.9");
+//                    }
+//                }
+//        );
+//
+//        shop.pay(10000,
+//                ((prodName, merchant, amount) -> System.out.println("prodName = "+ prodName + "merchant =" + merchant + "amount =" + amount)),
+//                ((id, amount,merchant)-> System.out.println("trump")));
+//
+//        Map<String, Object> ret = new HashMap<>();
+//
+//        ret.put("error", FORBIDDEN);
+//        ret.put("description", FORBIDDEN);
+//        ret.put("ok", OK);
+//System.out.println(ret);
     }
 }
