@@ -37,7 +37,7 @@ public class Mall {
         this.storeList = storeList;
     }
 
-    private class Store {
+    private static class Store {
         private double size;
         private double rentPerSize;
         private Integer floor;
@@ -48,91 +48,76 @@ public class Mall {
         private double leaseTerm;
         private Map<Object, Object> optional;
 
-        public double getSize() {
-            return size;
-        }
-
         public void setSize(double size) {
             this.size = size;
-        }
-
-        public double getRentPerSize() {
-            return rentPerSize;
         }
 
         public void setRentPerSize(double rentPerSize) {
             this.rentPerSize = rentPerSize;
         }
 
-        public Integer getFloor() {
-            return floor;
-        }
-
         public void setFloor(Integer floor) {
             this.floor = floor;
-        }
-
-        public Integer getNo() {
-            return no;
         }
 
         public void setNo(Integer no) {
             this.no = no;
         }
 
-        public String getOwner() {
-            return owner;
-        }
-
         public void setOwner(String owner) {
             this.owner = owner;
-        }
-
-        public double getBegin() {
-            return begin;
         }
 
         public void setBegin(double begin) {
             this.begin = begin;
         }
 
-        public double getEnd() {
-            return end;
-        }
-
         public void setEnd(double end) {
             this.end = end;
-        }
-
-        public double getLeaseTerm() {
-            return leaseTerm;
         }
 
         public void setLeaseTerm(double leaseTerm) {
             this.leaseTerm = leaseTerm;
         }
 
-        public Map<Object, Object> getOptional() {
-            return optional;
-        }
-
         public void setOptional(Map<Object, Object> optional) {
             this.optional = optional;
         }
 
-        @Override
-        public String toString() {
-            return "Store{" +
-                    "size=" + size +
-                    ", rentPerSize=" + rentPerSize +
-                    ", floor=" + floor +
-                    ", no=" + no +
-                    ", owner='" + owner + '\'' +
-                    ", begin=" + begin +
-                    ", end=" + end +
-                    ", leaseTerm=" + leaseTerm +
-                    ", optional=" + optional +
-                    '}';
+        public double getSize() {
+            return size;
+        }
+
+        public double getRentPerSize() {
+            return rentPerSize;
+        }
+
+        public Integer getFloor() {
+            return floor;
+        }
+
+        public Integer getNo() {
+            return no;
+        }
+
+        public String getOwner() {
+            return owner;
+        }
+
+        public double getBegin() {
+            return begin;
+        }
+
+        public double getEnd() {
+            return end;
+        }
+
+        public double getLeaseTerm() {
+            return leaseTerm;
+        }
+
+        public Map<Object, Object> getOptional() {
+            return optional;
         }
 
         private Store(){
@@ -143,6 +128,73 @@ public class Mall {
             this.floor = floor;
             this.no = no;
             this.size = size;
+        }
+
+        static class Builder{
+            private double size;
+            private double rentPerSize;
+            private Integer floor;
+            private Integer no;
+            private String owner;
+            private double leaseTerm;
+            private double begin;
+            private double end;
+            private Map<Object, Object> optional;
+
+            public Builder(Integer floor, Integer no, double size){
+                this.floor = floor;
+                this.no = no;
+                this.size = size;
+            }
+
+            public Builder size( double size){
+                this.size = size;
+                return this;
+            }
+
+            public Builder rentPerSize(double rentPerSize){
+                this.rentPerSize = rentPerSize;
+                return this;
+            }
+
+            public Builder floor(Integer floor){
+                this.floor = floor;
+                return this;
+            }
+
+            public Builder no(Integer no){
+                this.no = no;
+                return this;
+            }
+
+            public Builder owner(String owner){
+                this.owner = owner;
+                return this;
+            }
+
+            public Builder leaseTerm(double leaseTerm){
+                this.leaseTerm = leaseTerm;
+                return this;
+            }
+
+            public Builder begin(double begin){
+                this.begin = begin;
+                return this;
+            }
+            public Builder end(double end){
+                this.end = end;
+                return this;
+            }
+
+            public Store build(){
+                Store store = new Store(this.floor, this.no, this.size);
+                store.end = this.end;
+                store.begin = this.begin;
+                store.leaseTerm = this.leaseTerm;
+                store.owner = this.owner;
+                store.rentPerSize = this.rentPerSize;
+                return store;
+            }
         }
     }
 
