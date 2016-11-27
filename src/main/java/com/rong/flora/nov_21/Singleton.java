@@ -59,9 +59,20 @@ public class Singleton {
         return instance;
     }
 
+    public String changeString(String s) {
+        s += "changed";
+        return s;
+    }
+
     public static void main(String... args) {
         Singleton singleton = Singleton.getInstance1();
         System.out.println(singleton.getHost());
         System.out.println(singleton.getPort());
+
+        String src = "1234";
+        System.out.println("before change src: " + src);
+        String dst = singleton.changeString(src);
+        System.out.println("after change src: " + src);
+        System.out.println("dst: " + dst);
     }
 }
