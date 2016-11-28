@@ -1,7 +1,6 @@
 package com.rong.flora.nov_26;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by rongwf1 on 2016/11/27.
@@ -9,12 +8,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class Message {
     private String ts;
     private String id;
-    private String content;
     private String type;
     private Integer life;
-    private Integer clentId;
-    private static Queue<Message> serverMessages = new ArrayBlockingQueue<Message>(1024);
-    private static Queue<Message> clientMessages = new ArrayBlockingQueue<Message>(1024);
+    private Integer cId;
+    private Integer sId;
+    // true means c to s. false means s to c.
+    private boolean direction;
+    private String content;
 
     private Message(){
         this.ts = new Date().toString();
@@ -25,13 +25,15 @@ public class Message {
         this();
         this.content = content;
         this.type = type;
-        this.clentId =clientId;
+        this.cId =clientId;
     }
 
    public static class Builder{
         private String content;
         private String type;
         private Integer clientId;
+       private Integer serverId;
+       private boolean direction;
 
 
         public Builder content(String content){
@@ -49,24 +51,28 @@ public class Message {
             return this;
         }
 
+        public Builder serverId(Integer serverId){
+            this.serverId = serverId;
+            return this;
+        }
+
+        public Builder direction(boolean direction){
+            this.direction = direction;
+            return this;
+        }
+
         public Message build(){
             Message message = new Message();
             message.content = this.content;
             message.type = this.type;
-            message.clentId = this.clientId;
+            message.cId = this.clientId;
+            message.sId = this.serverId;
+            message.direction = this.direction;
             return message;
         }
 
     }
 
-
-    public static Queue<Message> getServerMessages() {
-        return serverMessages;
-    }
-
-    public static Queue<Message> getClientMessages() {
-        return clientMessages;
-    }
 
     public String getTs() {
         return ts;
@@ -108,12 +114,12 @@ public class Message {
         this.life = life;
     }
 
-    public Integer getClentId() {
-        return clentId;
+    public Integer getcId() {
+        return cId;
     }
 
-    public void setClentId(Integer clentId) {
-        this.clentId = clentId;
+    public void setcId(Integer cId) {
+        this.cId = cId;
     }
 
     @Override
@@ -124,7 +130,9 @@ public class Message {
                 ", content='" + content + '\'' +
                 ", type='" + type + '\'' +
                 ", life=" + life +
-                ", clentId=" + clentId +
+                ", cId=" + cId +
+                ", sId=" + sId +
+                ", direction=" + direction +
                 '}';
     }
 }

@@ -17,6 +17,7 @@ public class Client implements IClient {
     private List<Message> messageList;
     private IServer server;
     private int fd;
+    private IMsgProxy msgProxy;
 
     public int getClientId() {
         return clientId;
@@ -47,13 +48,14 @@ public class Client implements IClient {
         state = State.C_RUNNING;
         messageList = new LinkedList<>();
         fd = 0;
+        msgProxy = new MsgProxy();
     }
 
-    public boolean sendMsg(int fd, Message msg){
+    public boolean write(int fd, Message msg){
         boolean flag = true;
         if (checkServerState(server)){
             try {
-                Message.getServerMessages().add(msg);
+                msgProxy.write(msg);
             } catch (RuntimeException e){
                 flag = false;
                 logger.debug(e.getMessage());
@@ -66,28 +68,29 @@ public class Client implements IClient {
     }
 
 
-    public void receiveMsg(int fd, IOncomplete action) {
-        if (fd == this.fd) {
-            if (!Message.getClientMessages().isEmpty()) {
-                Message message = Message.getClientMessages().remove();
-                if (clientId == message.getClentId()) {
-                    messageList.add(message);
-                    if(action != null && !message.getType().equals("ack")) {
-                        action.success();
-                    }
-                } else {
-                    Message.getClientMessages().add(message);
-                    if (action != null) {
-                        action.failure();
-                    }
-                }
-                logger.debug("message: " + message);
-
-            }
-        }else {
+    public void read(int fd, IOncomplete action) {
+        if (fd != this.fd) {
             logger.debug("error");
+            return;
         }
+
+        Message message = msgProxy.read();
+        if (message == null) return;
+
+        if (clientId == message.getcId()) {
+            messageList.add(message);
+            if(action != null && !message.getType().equals("ack")) {
+                action.success();
+            }
+        } else {
+            msgProxy.write(message);
+            if (action != null) {
+                action.failure();
+            }
+        }
+        logger.debug("message: " + message);
     }
+
  public boolean checkServerState(IServer server){
      return server.status().equals(State.S_RUNNING);
  }

@@ -18,6 +18,7 @@ public class Server implements IServer {
     private List<Message> messageList;
     private int fd;
     private static final Server inst = new Server();
+    private IMsgProxy msgProxy;
 
 
     private Server(){
@@ -26,6 +27,7 @@ public class Server implements IServer {
         fd = 0;
         clientMap = new HashMap<>(MAX_CONN);
         messageList = new LinkedList<>();
+        msgProxy = new MsgProxy();
     }
 
     public  static Server getInst(){
@@ -63,10 +65,11 @@ public class Server implements IServer {
         return flag;
     }
 
-    public void receiveMsg(int fd, IOncomplete action){
-        if (Message.getServerMessages().isEmpty())return;
-        Message msg =Message.getServerMessages().poll();
-        if (fd == clientMap.get(msg.getClentId())){
+    public void read(int fd, IOncomplete action){
+        Message msg = msgProxy.read();
+        if (msg == null) return;
+
+        if (fd == clientMap.get(msg.getcId())){
             messageList.add(msg);
             if (action != null)
                 action.success();
@@ -74,15 +77,16 @@ public class Server implements IServer {
         } else {
             if (action != null && !msg.getType().equals("ack"))
                 action.failure();
-            Message.getServerMessages().add(msg);
+            // write back to the queue
+            msgProxy.write(msg);
             logger.debug(" error !");
         }
     }
 
-    public boolean sendMsg(int fd, Message msg){
+    public boolean write(int fd, Message msg){
         boolean flag = true;
-        if (fd == clientMap.get(msg.getClentId())){
-            Message.getClientMessages().add(msg);
+        if (fd == clientMap.get(msg.getcId())){
+            msgProxy.write(msg);
 //            logger.debug("send message: " + msg);
         } else {
             flag = false;
