@@ -28,6 +28,27 @@ public class Message {
         this.cId =clientId;
     }
 
+    public int messageType(){
+        int res = 0;
+        switch (type){
+            case "txt":
+                res = 1;
+                break;
+
+            case "img":
+                res = 2;
+                break;
+
+            case "audio":
+                res = 3;
+                break;
+            case "video":
+                res = 4;
+                break;
+        }
+        return res;
+    }
+
    public static class Builder{
         private String content;
         private String type;

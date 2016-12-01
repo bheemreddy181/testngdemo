@@ -21,6 +21,7 @@ public class Server implements IServer {
     private IMsgProxy msgProxy;
 
 
+
     private Server(){
         state = State.S_CLOSED;
         connect = 0;
