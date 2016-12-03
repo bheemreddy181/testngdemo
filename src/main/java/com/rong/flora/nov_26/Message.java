@@ -6,101 +6,48 @@ import java.util.*;
  * Created by rongwf1 on 2016/11/27.
  */
 public class Message {
-    private String ts;
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Message.class);
     private String id;
-    private String type;
-    private Integer life;
-    private Integer cId;
-    private Integer sId;
-    // true means c to s. false means s to c.
-    private boolean direction;
+    private Protocol protocol;
     private String content;
+    private Integer fd;
 
     private Message(){
-        this.ts = new Date().toString();
+        this.protocol = new Protocol();
         this.id = UUID.randomUUID().toString();
-        this.life = 10;
     }
-    private Message( String content, String type, Integer clientId) {
+    public Message( Integer fd, String content, Integer src, Integer dst, String... msgFmt) {
         this();
+        this.fd = fd;
         this.content = content;
-        this.type = type;
-        this.cId =clientId;
+        protocol.setSrc(src);
+        protocol.setDst(dst);
+        for (String fmt : msgFmt) protocol.setType(fmt);
     }
 
-    public int messageType(){
-        int res = 0;
-        switch (type){
-            case "txt":
-                res = 1;
-                break;
-
-            case "img":
-                res = 2;
-                break;
-
-            case "audio":
-                res = 3;
-                break;
-            case "video":
-                res = 4;
-                break;
-        }
-        return res;
+    public Integer getFd() {
+        return fd;
     }
 
-   public static class Builder{
-        private String content;
-        private String type;
-        private Integer clientId;
-       private Integer serverId;
-       private boolean direction;
-
-
-        public Builder content(String content){
-            this.content = content;
-            return this;
-        }
-
-        public Builder type(String type){
-            this.type = type;
-            return this;
-        }
-
-        public Builder clientId(Integer clientId){
-            this.clientId = clientId;
-            return this;
-        }
-
-        public Builder serverId(Integer serverId){
-            this.serverId = serverId;
-            return this;
-        }
-
-        public Builder direction(boolean direction){
-            this.direction = direction;
-            return this;
-        }
-
-        public Message build(){
-            Message message = new Message();
-            message.content = this.content;
-            message.type = this.type;
-            message.cId = this.clientId;
-            message.sId = this.serverId;
-            message.direction = this.direction;
-            return message;
-        }
-
+    public void setFd(Integer fd) {
+        this.fd = fd;
     }
 
-
-    public String getTs() {
-        return ts;
+    public Integer getSrc(){
+        return protocol.getSrc();
     }
 
-    public void setTs(String ts) {
-        this.ts = ts;
+    public Integer getDst(){
+        return protocol.getDst();
+    }
+
+    public Integer getLife(){
+        return protocol.getLife();
+    }
+    public Integer decLife() {
+        int oldLife = protocol.getLife();
+        if (oldLife > 0) protocol.setLife(--oldLife);
+        return oldLife;
     }
 
     public String getId() {
@@ -119,41 +66,12 @@ public class Message {
         this.content = content;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getLife() {
-        return life;
-    }
-
-    public void setLife(Integer life) {
-        this.life = life;
-    }
-
-    public Integer getcId() {
-        return cId;
-    }
-
-    public void setcId(Integer cId) {
-        this.cId = cId;
-    }
-
     @Override
     public String toString() {
         return "Message{" +
-                "ts='" + ts + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
+                ", protocol=" + protocol +
                 ", content='" + content + '\'' +
-                ", type='" + type + '\'' +
-                ", life=" + life +
-                ", cId=" + cId +
-                ", sId=" + sId +
-                ", direction=" + direction +
                 '}';
     }
 }

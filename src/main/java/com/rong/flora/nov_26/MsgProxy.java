@@ -5,11 +5,11 @@ package com.rong.flora.nov_26;
  */
 public class MsgProxy implements IMsgProxy {
 
-    public Message read(){
+    public synchronized Message read(){
         return MsgQueue.read();
     }
 
-    public boolean write(Message msg){
+    public synchronized boolean write(Message msg){
         return MsgQueue.write(msg);
     }
 }

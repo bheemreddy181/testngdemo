@@ -48,7 +48,8 @@ public class Client implements IClient {
         state = State.C_RUNNING;
         messageList = new LinkedList<>();
         fd = 0;
-        msgProxy = new MsgProxy();
+//        msgProxy = new MsgProxy();
+        msgProxy = LinkedListMsgProxy.getInst();
     }
 
     public boolean write(int fd, Message msg){
@@ -74,21 +75,24 @@ public class Client implements IClient {
             return;
         }
 
-        Message message = msgProxy.read();
+//        Message message = msgProxy.read();
+        Message message = msgProxy.read(fd, clientId);
         if (message == null) return;
 
-        if (clientId == message.getcId()) {
+        if (clientId == message.getDst()&& message.getLife() > 0) {
+            message.decLife();
             messageList.add(message);
-            if(action != null && !message.getType().equals("ack")) {
+            if(action != null && !message.getContent().equals("ack")) {
                 action.success();
+                logger.debug("client read message: " + message);
             }
         } else {
-            msgProxy.write(message);
-            if (action != null) {
+            // put back to queue
+            if (!msgProxy.write(message) && action != null) {
                 action.failure();
+                logger.debug("client puts back msg to queue");
             }
         }
-        logger.debug("message: " + message);
     }
 
  public boolean checkServerState(IServer server){

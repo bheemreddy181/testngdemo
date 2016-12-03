@@ -12,11 +12,10 @@ public class Main {
     public static void main(String... args){
         IClient client = new Client();
         IServer server = Server.getInst();
-        Message message = new Message.Builder().content("hi").type("String").clientId(client.getClientId()).build();
-
 
         server.start();
         int fd =  client.connect(server);
+
         Thread serverThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -26,7 +25,7 @@ public class Main {
                         server.read(fd, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               server.write(fd, new Message.Builder().type("ack").content("server received").clientId(client.getClientId()).build());
+                               server.write(fd, new Message(fd,"ack", server.getId(), client.getClientId(), "txt"));
                                 return true;
                             }
 
@@ -42,6 +41,7 @@ public class Main {
                 }
             }
         });
+
         Thread clientThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +51,7 @@ public class Main {
                         client.read(fd, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               client.write(fd, new Message.Builder().type("ack").content("client received").clientId(client.getClientId()).build());
+                               client.write(fd, new Message(fd,"ack", client.getClientId(), server.getId(), "txt"));
                                 return true;
                             }
 
@@ -67,13 +67,15 @@ public class Main {
                 }
             }
         });
+        serverThread.setName("server: " + server.getId());
+        clientThread.setName("client: " + client.getClientId());
         serverThread.start();
         clientThread.start();
 
         for (int i =0; i< 10; i++){
-            Message msg = new Message.Builder().type("string").content("hello "+ i).clientId(client.getClientId()).build();
+            Message msg = new Message(fd,"hello", client.getClientId(), server.getId(), "txt");
             client.write(fd, msg);
-            Message msg1 = new Message.Builder().type("string").content("world "+ i).clientId(client.getClientId()).build();
+            Message msg1 = new Message(fd,"world", server.getId(), client.getClientId(), "txt");
             server.write(fd, msg1 );
         }
 //        boolean f = client.write(fd,message);

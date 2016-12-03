@@ -1,11 +1,9 @@
 package com.rong.flora.nov_26;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rongwf1 on 2016/11/27.
@@ -17,22 +15,28 @@ public class Server implements IServer {
     private Map<Integer, Integer> clientMap;
     private List<Message> messageList;
     private int fd;
+    private int id;
     private static final Server inst = new Server();
     private IMsgProxy msgProxy;
-
-
 
     private Server(){
         state = State.S_CLOSED;
         connect = 0;
         fd = 0;
+        id = RandomUtils.nextInt(10001, 20000);
         clientMap = new HashMap<>(MAX_CONN);
         messageList = new LinkedList<>();
-        msgProxy = new MsgProxy();
+//        msgProxy = new MsgProxy();
+        msgProxy = LinkedListMsgProxy.getInst();
     }
 
     public  static Server getInst(){
         return inst;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     public boolean start(){
@@ -67,26 +71,28 @@ public class Server implements IServer {
     }
 
     public void read(int fd, IOncomplete action){
-        Message msg = msgProxy.read();
+//        Message msg = msgProxy.read();
+        Message msg = msgProxy.read(fd, id);
         if (msg == null) return;
 
-        if (fd == clientMap.get(msg.getcId())){
+        if (clientMap.get(msg.getSrc()) != null && clientMap.get(msg.getSrc()) == fd  && msg.getLife() > 0){
             messageList.add(msg);
-            if (action != null)
+            if (action != null && !msg.getContent().equals("ack")){
                 action.success();
+            }
             logger.debug("message:" + msg);
         } else {
-            if (action != null && !msg.getType().equals("ack"))
-                action.failure();
             // write back to the queue
-            msgProxy.write(msg);
-            logger.debug(" error !");
+            if (!msgProxy.write(msg) && action != null) {
+                action.failure();
+                logger.debug("server puts back message to queue");
+            }
         }
     }
 
     public boolean write(int fd, Message msg){
         boolean flag = true;
-        if (fd == clientMap.get(msg.getcId())){
+        if (fd == clientMap.get(msg.getDst())){
             msgProxy.write(msg);
 //            logger.debug("send message: " + msg);
         } else {

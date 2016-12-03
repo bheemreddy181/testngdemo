@@ -11,5 +11,5 @@ public interface IServer {
     boolean start() throws RuntimeException;
     boolean shutDown();
     State status();
-
+    int getId();
 }
