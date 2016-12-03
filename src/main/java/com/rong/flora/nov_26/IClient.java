@@ -5,8 +5,8 @@ package com.rong.flora.nov_26;
  */
 public interface IClient {
     int connect(IServer s) throws RuntimeException;
-    boolean sendMsg(int fd, Message msg) throws RuntimeException;
-    void receiveMsg(int fd, IOncomplete action) throws RuntimeException;
+    boolean write(int fd, Message msg) throws RuntimeException;
+    void read(int fd, IOncomplete action) throws RuntimeException;
     boolean checkServerState(IServer s);
     State status();
     int getClientId();

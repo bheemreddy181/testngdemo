@@ -9,7 +9,7 @@ import org.apache.commons.lang3.RandomUtils;
 public class Queue {
 //    private SingleLinkedList linkedList;
 //
-//    public Queue(){
+//    public MsgQueue(){
 //         linkedList = new SingleLinkedList();
 //    }
 //
@@ -45,7 +45,7 @@ public class Queue {
 //    }
 //
 //    public static void main(String[] args){
-//        Queue queue = new Queue();
+//        MsgQueue queue = new MsgQueue();
 //        for(int i = 0 ; i < 20; i++){
 //            queue.enqueue(RandomUtils.nextInt(1,100));
 //        }

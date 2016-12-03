@@ -2,8 +2,6 @@ package com.rong.flora.nov_26;
 
 import org.apache.log4j.Logger;
 
-import java.util.concurrent.FutureTask;
-
 /**
  * Created by rongwf1 on 2016/11/27.
  */
@@ -25,10 +23,10 @@ public class Main {
                 while (true){
                     try {
                         Thread.sleep(1000);
-                        server.receiveMsg(fd, new IOncomplete() {
+                        server.read(fd, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               server.sendMsg(fd, new Message.Builder().type("ack").content("server received").clientId(client.getClientId()).build());
+                               server.write(fd, new Message.Builder().type("ack").content("server received").clientId(client.getClientId()).build());
                                 return true;
                             }
 
@@ -50,10 +48,10 @@ public class Main {
                 while (true) {
                     try {
                         Thread.sleep(500);
-                        client.receiveMsg(fd, new IOncomplete() {
+                        client.read(fd, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               client.sendMsg(fd, new Message.Builder().type("ack").content("client received").clientId(client.getClientId()).build());
+                               client.write(fd, new Message.Builder().type("ack").content("client received").clientId(client.getClientId()).build());
                                 return true;
                             }
 
@@ -74,21 +72,21 @@ public class Main {
 
         for (int i =0; i< 10; i++){
             Message msg = new Message.Builder().type("string").content("hello "+ i).clientId(client.getClientId()).build();
-            client.sendMsg(fd, msg);
+            client.write(fd, msg);
             Message msg1 = new Message.Builder().type("string").content("world "+ i).clientId(client.getClientId()).build();
-            server.sendMsg(fd, msg1 );
+            server.write(fd, msg1 );
         }
-//        boolean f = client.sendMsg(fd,message);
-//        server.receiveMsg(fd);
-//        server.sendMsg(fd, new Message("world", "string", client.getClientId()));
-//        client.receiveMsg(fd);
+//        boolean f = client.write(fd,message);
+//        server.read(fd);
+//        server.write(fd, new Message("world", "string", client.getClientId()));
+//        client.read(fd);
 //
 //
 //        logger.debug(f);
 //
 //        server.shutDown();
-//        f = client.sendMsg(fd, message);
-//        server.receiveMsg(fd);
+//        f = client.write(fd, message);
+//        server.read(fd);
 //        logger.debug(f);
 
 
