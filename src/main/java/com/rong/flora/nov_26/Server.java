@@ -12,7 +12,7 @@ public class Server implements IServer {
     private static final org.apache.log4j.Logger logger = Logger.getLogger(Server.class);
     private State state;
     private int connect;
-    private Map<Integer, Integer> clientMap;
+    private Map<Integer, List<Integer>> clientMap;
     private List<Message> messageList;
     private int fd;
     private int id;
@@ -32,6 +32,14 @@ public class Server implements IServer {
 
     public  static Server getInst(){
         return inst;
+    }
+
+    public Map<Integer, List<Integer>> getClientMap() {
+        return clientMap;
+    }
+
+    public void setClientMap(Map<Integer, List<Integer>> clientMap) {
+        this.clientMap = clientMap;
     }
 
     @Override
@@ -75,7 +83,10 @@ public class Server implements IServer {
         Message msg = msgProxy.read(fd, id);
         if (msg == null) return;
 
-        if (clientMap.get(msg.getSrc()) != null && clientMap.get(msg.getSrc()) == fd  && msg.getLife() > 0){
+        if (clientMap.get(msg.getSrc()) != null &&
+                clientMap.get(msg.getSrc()).contains(fd) &&
+                msg.getDst()==id &&
+                msg.getLife() > 0){
             messageList.add(msg);
             if (action != null && !msg.getContent().equals("ack")){
                 action.success();
@@ -92,7 +103,7 @@ public class Server implements IServer {
 
     public boolean write(int fd, Message msg){
         boolean flag = true;
-        if (fd == clientMap.get(msg.getDst())){
+        if (clientMap.get(msg.getDst()) != null && clientMap.get(msg.getDst()).contains(fd)){
             msgProxy.write(msg);
 //            logger.debug("send message: " + msg);
         } else {
@@ -106,11 +117,13 @@ public class Server implements IServer {
         return state;
     }
 
-    public int accept(IClient client){
+    public synchronized int accept(IClient client){
 
         if(status().equals(State.S_RUNNING) && connect<MAX_CONN ){
             connect++;
-            clientMap.put(client.getClientId(), ++fd);
+            List<Integer> fds = clientMap.getOrDefault(client.getClientId(), new LinkedList<>());
+            fds.add(++fd);
+            clientMap.put(client.getClientId(), fds);
         }
 
         if (fd > MAX_CONN){

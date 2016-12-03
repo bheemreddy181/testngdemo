@@ -3,8 +3,7 @@ package com.rong.flora.nov_26;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rongwf1 on 2016/11/27.
@@ -13,6 +12,7 @@ public class Client implements IClient {
 
     private static final Logger logger = Logger.getLogger(Client.class);
     private int clientId;
+    private Map<Integer,List<Integer>> serverMap = new HashMap<>();
     private State state;
     private List<Message> messageList;
     private IServer server;
@@ -43,6 +43,14 @@ public class Client implements IClient {
         this.messageList = messageList;
     }
 
+    public Map<Integer, List<Integer>> getServerMap() {
+        return serverMap;
+    }
+
+    public void setServerMap(Map<Integer, List<Integer>> serverMap) {
+        this.serverMap = serverMap;
+    }
+
     public Client(){
         clientId = RandomUtils.nextInt(1, 10000);
         state = State.C_RUNNING;
@@ -54,7 +62,9 @@ public class Client implements IClient {
 
     public boolean write(int fd, Message msg){
         boolean flag = true;
-        if (checkServerState(server)){
+        if (serverMap.get(msg.getDst()) != null &&
+                serverMap.get(msg.getDst()).contains(fd) &&
+                checkServerState(server)) {
             try {
                 msgProxy.write(msg);
             } catch (RuntimeException e){
@@ -70,7 +80,7 @@ public class Client implements IClient {
 
 
     public void read(int fd, IOncomplete action) {
-        if (fd != this.fd) {
+        if (server == null || !serverMap.get(server.getId()).contains(fd)) {
             logger.debug("error");
             return;
         }
@@ -104,9 +114,12 @@ public class Client implements IClient {
         return state;
     }
 
-    public int connect( IServer server){
+    public synchronized int connect( IServer server){
         if (checkServerState(server)){
             fd = server.accept(this);
+            List<Integer> fds = serverMap.getOrDefault(server.getId(), new LinkedList<>());
+            fds.add(fd);
+            serverMap.put(server.getId(), fds);
             this.server = server;
         }
         return fd;

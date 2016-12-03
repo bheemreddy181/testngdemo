@@ -15,6 +15,7 @@ public class Main {
 
         server.start();
         int fd =  client.connect(server);
+        int fd2 =  client.connect(server);
 
         Thread serverThread = new Thread(new Runnable() {
             @Override
@@ -22,10 +23,10 @@ public class Main {
                 while (true){
                     try {
                         Thread.sleep(1000);
-                        server.read(fd, new IOncomplete() {
+                        server.read(fd2, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               server.write(fd, new Message(fd,"ack", server.getId(), client.getClientId(), "txt"));
+                               server.write(fd2, new Message(fd,"ack", server.getId(), client.getClientId(), "txt"));
                                 return true;
                             }
 
@@ -48,10 +49,10 @@ public class Main {
                 while (true) {
                     try {
                         Thread.sleep(500);
-                        client.read(fd, new IOncomplete() {
+                        client.read(fd2, new IOncomplete() {
                             @Override
                             public boolean success() {
-                               client.write(fd, new Message(fd,"ack", client.getClientId(), server.getId(), "txt"));
+                               client.write(fd2, new Message(fd,"ack", client.getClientId(), server.getId(), "txt"));
                                 return true;
                             }
 
@@ -78,6 +79,13 @@ public class Main {
             Message msg1 = new Message(fd,"world", server.getId(), client.getClientId(), "txt");
             server.write(fd, msg1 );
         }
+        for (int i =0; i< 10; i++){
+            Message msg = new Message(fd2,"hi", client.getClientId(), server.getId(), "txt");
+            client.write(fd2, msg);
+            Message msg1 = new Message(fd2,"java", server.getId(), client.getClientId(), "txt");
+            server.write(fd2, msg1 );
+        }
+        logger.debug("over");
 //        boolean f = client.write(fd,message);
 //        server.read(fd);
 //        server.write(fd, new Message("world", "string", client.getClientId()));
