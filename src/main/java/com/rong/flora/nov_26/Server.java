@@ -154,4 +154,15 @@ public class Server implements IServer {
         }
         return flag;
     }
+
+    private synchronized int findMinFd(){
+       Collection<List<Integer>> fdList = clientMap.values();
+       int[] min = {0};
+       fdList.forEach(fds->{
+           if (min[0] < fds.get(0)){
+               min[0] = fds.get(0);
+           }
+       });
+       return min[0];
+    }
 }
