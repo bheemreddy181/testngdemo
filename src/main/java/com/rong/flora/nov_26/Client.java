@@ -73,7 +73,12 @@ public class Client implements IClient {
             }
         }else {
             flag = false;
-            logger.debug("error, the server is down");
+            if (serverMap.get(msg.getDst()) == null ||
+                    !serverMap.get(msg.getDst()).contains(fd)) {
+                logger.debug(" connection is closed");
+            }else {
+                logger.debug("error, the server is down");
+            }
         }
         return flag;
     }
@@ -123,5 +128,29 @@ public class Client implements IClient {
             this.server = server;
         }
         return fd;
+    }
+
+    public synchronized boolean close(int fd, IServer server){
+
+        boolean flag = true;
+        if (serverMap.get(server.getId()) == null){
+            logger.debug(" this server is not exist");
+            return flag;
+        }
+        serverMap.get(server.getId()).remove(fd);
+        if (serverMap.get(server.getId()).size() == 0){
+            serverMap.remove(server.getId());
+        }
+
+
+        if (server.getClientMap().get(clientId) == null){
+            logger.debug(" this client is not exist");
+            return flag;
+        }
+        server.getClientMap().get(clientId).remove(fd);
+        if (server.getClientMap().get(clientId).size() == 0){
+            server.getClientMap().remove(clientId);
+        }
+        return flag;
     }
 }

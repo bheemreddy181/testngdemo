@@ -131,4 +131,27 @@ public class Server implements IServer {
         }
         return fd;
     }
+
+    public synchronized boolean close(int fd, IClient client){
+        boolean flag = true;
+        if (clientMap.get(client.getClientId()) == null){
+            logger.debug(" this client is not exist");
+            return flag;
+        }
+        clientMap.get(client.getClientId()).remove(fd);
+        if (clientMap.get(client.getClientId()).size() == 0){
+            clientMap.remove(client.getClientId());
+        }
+
+
+        if (client.getServerMap().get(id) == null){
+            logger.debug(" this server is not exist");
+            return flag;
+        }
+        client.getServerMap().get(id).remove(fd);
+        if (client.getServerMap().get(id).size() == 0){
+            client.getServerMap().remove(id);
+        }
+        return flag;
+    }
 }

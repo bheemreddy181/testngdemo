@@ -1,5 +1,8 @@
 package com.rong.flora.nov_26;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by rongwf1 on 2016/11/27.
  */
@@ -12,4 +15,6 @@ public interface IServer {
     boolean shutDown();
     State status();
     int getId();
+    boolean close(int fd, IClient client);
+    default Map<Integer, List<Integer>> getClientMap(){return null;}
 }
