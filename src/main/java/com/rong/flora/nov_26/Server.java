@@ -18,6 +18,7 @@ public class Server implements IServer {
     private int id;
     private static final Server inst = new Server();
     private IMsgProxy msgProxy;
+    private int[] fdArray = new int[1025];
 
     private Server(){
         state = State.S_CLOSED;
@@ -120,10 +121,14 @@ public class Server implements IServer {
     public synchronized int accept(IClient client){
 
         if(status().equals(State.S_RUNNING) && connect<MAX_CONN ){
-            connect++;
-            List<Integer> fds = clientMap.getOrDefault(client.getClientId(), new LinkedList<>());
-            fds.add(++fd);
-            clientMap.put(client.getClientId(), fds);
+            fd = findMinFd();
+            if (fd > 0){
+                connect++;
+                fdArray[fd] = client.getClientId();
+                List<Integer> fds = clientMap.getOrDefault(client.getClientId(), new LinkedList<>());
+                fds.add(fd);
+                clientMap.put(client.getClientId(), fds);
+            }
         }
 
         if (fd > MAX_CONN){
@@ -139,6 +144,7 @@ public class Server implements IServer {
             return flag;
         }
         clientMap.get(client.getClientId()).remove(fd);
+        fdArray[fd] = 0;
         if (clientMap.get(client.getClientId()).size() == 0){
             clientMap.remove(client.getClientId());
         }
@@ -156,13 +162,23 @@ public class Server implements IServer {
     }
 
     private synchronized int findMinFd(){
-       Collection<List<Integer>> fdList = clientMap.values();
-       int[] min = {0};
-       fdList.forEach(fds->{
-           if (min[0] < fds.get(0)){
-               min[0] = fds.get(0);
-           }
-       });
-       return min[0];
+        int minFd = 0;
+        int i = 1;
+        while (i < fdArray.length){
+            if (fdArray[i] == 0){
+                minFd = i;
+                break;
+            }
+            i++;
+        }
+        return minFd;
+    }
+
+    public synchronized void clearFd(int fd){
+        if ( fd < 0 || fd >1024) {
+            logger.debug("error ! fd is not valid");
+            return;
+        }
+        fdArray[fd] = 0;
     }
 }

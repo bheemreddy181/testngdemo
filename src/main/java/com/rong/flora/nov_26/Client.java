@@ -138,6 +138,7 @@ public class Client implements IClient {
             return flag;
         }
         serverMap.get(server.getId()).remove(fd);
+        server.clearFd(fd);
         if (serverMap.get(server.getId()).size() == 0){
             serverMap.remove(server.getId());
         }

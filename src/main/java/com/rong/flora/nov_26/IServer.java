@@ -17,4 +17,5 @@ public interface IServer {
     int getId();
     boolean close(int fd, IClient client);
     default Map<Integer, List<Integer>> getClientMap(){return null;}
+    default void clearFd(int fd){}
 }
