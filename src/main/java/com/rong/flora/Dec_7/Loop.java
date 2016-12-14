@@ -3,9 +3,11 @@ package com.rong.flora.Dec_7;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by rong on 2016/12/7.
@@ -13,6 +15,8 @@ import java.util.Arrays;
 public class Loop {
     private  static  final Logger logger =  Logger.getLogger(Loop.class);
     private Integer[] data = new Integer[1<<13];
+    private Map<Integer, Integer> integerMap = new HashMap<>();
+
     // 1<<13 = 2^13
     private String[] data1 = new String[1<<5];
 
@@ -21,6 +25,14 @@ public class Loop {
         for (int i = 0; i < data1.length; i++) data1[i] = RandomStringUtils.randomAlphabetic(i);
     }
     public void print(int index, int type){
+        integerMap.forEach((k,v)->{
+            logger.info("key is" + k);
+            logger.info("value is" + v);
+        });
+
+        for (Map.Entry<Integer, Integer> entry: integerMap.entrySet()){
+            logger.info("the entry is" + entry);
+        }
         long begin = Instant.now().toEpochMilli();
         if (index > data.length){
             logger.debug("invalid length");
