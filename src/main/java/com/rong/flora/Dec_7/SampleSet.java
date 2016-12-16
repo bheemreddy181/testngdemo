@@ -28,23 +28,52 @@ public class SampleSet {
     public Map<Character, Integer> count(String s){
         long b = Instant.now().toEpochMilli();
         Map<Character, Integer> characterIntegerMap = new HashMap<>();
+        Map<Character, Integer> maxMap = new HashMap<>();
         for (int i = 0; i < s.length(); i++){
             Character c = s.charAt(i);
             characterIntegerMap.put(c ,characterIntegerMap.getOrDefault(c, 0)+1);
+            if (maxMap.isEmpty()) {
+                maxMap.put(c, 1);
+            } else {
+                if (c.equals(maxMap.keySet().toArray()[0])){
+                    maxMap.put(c, maxMap.get(c) + 1);
+                } else {
+                    if (characterIntegerMap.get(c) > (Integer)maxMap.values().toArray()[0]) {
+                        maxMap.clear();
+                        maxMap.put(c, characterIntegerMap.get(c));
+                    }
+                }
+            }
         }
         long e = Instant.now().toEpochMilli();
-        System.out.println("count: " + (e - b) + " ms");
+        System.out.println("count: " + (e - b) + " ms, max char: " + maxMap);
+        System.out.println("count reduce: " + characterIntegerMap.values().stream().reduce(Math::max).get());
         return characterIntegerMap;
     }
 
     public int[] arrayCount(String s){
         long b = Instant.now().toEpochMilli();
-        int[] ints = new int[1<<7];
+        int[] ints = new int[(1 << 7) + 2];
         for (int i = 0; i < s.length(); i++){
-            ints[s.charAt(i)]++;
+            char c = s.charAt(i);
+            ints[c]++;
+            if (ints[128] == 0){
+                ints[128] = 1;
+                ints[129] = c;
+            } else {
+                if (ints[129]== c){
+                    ints[128] += 1;
+                } else {
+                if (ints[c] > ints[128]){
+                    ints[128] = ints[c];
+                    ints[129] = c;
+                }
+                }
+            }
         }
         long e = Instant.now().toEpochMilli();
-        System.out.println("array count: " + (e - b) + " ms");
+        System.out.println("array count: " + (e - b) + " ms, max char: " + (char)ints[129] + " times: " + ints[128]);
+
         return ints;
     }
 
