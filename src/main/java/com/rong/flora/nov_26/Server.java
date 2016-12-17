@@ -57,13 +57,13 @@ public class Server implements IServer {
         logger.debug("start the server");
         try {
 
-            state = State.S_STARTING;
+            state = state.next();
             Thread.sleep(5000);
         } catch (InterruptedException e){
             flag = false;
             logger.debug(e.getMessage());
         }
-        state = State.S_RUNNING;
+        state = state.next();
         logger.debug("server is running");
         return flag;
     }
@@ -72,13 +72,13 @@ public class Server implements IServer {
         boolean flag = true;
         logger.debug(" start to close the server");
         try {
-            state = State.S_CLOSING;
+            state = state.next();
             Thread.sleep(5000);
         } catch (InterruptedException e){
             flag = false;
             logger.debug(e.getMessage());
         }
-        state = State.S_CLOSED;
+        state = state.next();
         logger.debug(" the server is closed");
         return flag;
     }
@@ -136,7 +136,7 @@ public class Server implements IServer {
         }
 
         if (fd > MAX_CONN){
-            logger.debug("fd > max count, can't accept");
+            logger.debug("fd > max countWithMap, can't accept");
         }
         return fd;
     }

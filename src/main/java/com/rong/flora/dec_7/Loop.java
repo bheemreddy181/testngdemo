@@ -101,7 +101,7 @@ public class Loop {
             }
         }
         if (count < 1000){
-            throw new MyException("count < 1000");
+            throw new MyException("countWithMap < 1000");
         }
     }
 

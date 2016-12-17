@@ -1,9 +1,9 @@
-package com.rong.flora.Dec_7;
+package com.rong.flora.dec_7;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.*;
 
@@ -25,7 +25,22 @@ public class SampleSet {
        return integers.add(e);
     }
 
-    public Map<Character, Integer> count(String s){
+    @Engine
+    public Object count(String s){
+        Method[] methods = getClass().getDeclaredMethods();
+        for (Method method : methods){
+            if (method.isAnnotationPresent(Engine.class)){
+                Engine annotation = method.getAnnotation(Engine.class);
+                if (annotation.engine().equals("array")){
+                    return arrayCount(s);
+                }else if (annotation.engine().equals("map")){
+                    return countWithMap(s);
+                }
+            }
+        }
+        return countWithMap(s);
+    }
+    private Map<Character, Integer> countWithMap(String s){
         long b = Instant.now().toEpochMilli();
         Map<Character, Integer> characterIntegerMap = new HashMap<>();
         Map<Character, Integer> maxMap = new HashMap<>();
@@ -46,12 +61,12 @@ public class SampleSet {
             }
         }
         long e = Instant.now().toEpochMilli();
-        System.out.println("count: " + (e - b) + " ms, max char: " + maxMap);
-        System.out.println("count reduce: " + characterIntegerMap.values().stream().reduce(Math::max).get());
+        System.out.println("countWithMap: " + (e - b) + " ms, max char: " + maxMap);
+        System.out.println("countWithMap reduce: " + characterIntegerMap.values().stream().reduce(Math::max).get());
         return characterIntegerMap;
     }
 
-    public int[] arrayCount(String s){
+    private int[] arrayCount(String s){
         long b = Instant.now().toEpochMilli();
         int[] ints = new int[(1 << 7) + 2];
         for (int i = 0; i < s.length(); i++){
@@ -72,7 +87,7 @@ public class SampleSet {
             }
         }
         long e = Instant.now().toEpochMilli();
-        System.out.println("array count: " + (e - b) + " ms, max char: " + (char)ints[129] + " times: " + ints[128]);
+        System.out.println("countWithArray: " + (e - b) + " ms, max char: " + (char)ints[129] + " times: " + ints[128]);
 
         return ints;
     }
@@ -88,14 +103,15 @@ public class SampleSet {
         sampleSet.getIntegers().forEach(System.out::println);
 
         String s = RandomStringUtils.randomAscii(10000000);
-        int[] ints = sampleSet.arrayCount(s);
-        Map<Character, Integer> cntMap = sampleSet.count(s);
-        for (char c = 0; c < ints.length; c++) {
-            if (ints[c] > 0) {
-                System.out.println(c + " " + ints[c]);
-            }
-        }
-
-        System.out.println(cntMap);
+//        int[] ints = sampleSet.arrayCount(s);
+//        Map<Character, Integer> cntMap = sampleSet.countWithMap(s);
+        sampleSet.count(s);
+//        for (char c = 0; c < ints.length; c++) {
+//            if (ints[c] > 0) {
+//                System.out.println(c + " " + ints[c]);
+//            }
+//        }
+//
+//        System.out.println(cntMap);
     }
 }
