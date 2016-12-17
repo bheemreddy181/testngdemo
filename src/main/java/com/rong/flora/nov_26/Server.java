@@ -31,6 +31,10 @@ public class Server implements IServer {
         msgProxy = LinkedListMsgProxy.getInst();
     }
 
+    public Server(int id){
+        this();
+    }
+
     public  static Server getInst(){
         return inst;
     }

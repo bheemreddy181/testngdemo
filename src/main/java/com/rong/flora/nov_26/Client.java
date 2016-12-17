@@ -154,4 +154,17 @@ public class Client implements IClient {
         }
         return flag;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientId=" + clientId +
+                ", serverMap=" + serverMap +
+                ", state=" + state +
+                ", messageList=" + messageList +
+                ", server=" + server +
+                ", fd=" + fd +
+                ", msgProxy=" + msgProxy +
+                '}';
+    }
 }
