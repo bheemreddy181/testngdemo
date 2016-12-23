@@ -1,5 +1,7 @@
 package com.rong.flora.dec_7;
 
+import java.time.Instant;
+
 /**
  * Created by rong on 2016/12/22.
  */
@@ -14,6 +16,21 @@ public class ArrayClass<T> {
         this.array = new Object[cap];
     }
 
+    public void shrink(int newCap){
+        long begin = Instant.now().toEpochMilli();
+        int k = 0;
+        Object[] temp = new Object[newCap];
+        for (int i = 0; i < cap; i++) {
+            if (array[i] != null){
+                temp[k++] = array[i];
+            }
+        }
+        array = temp;
+        temp = null;
+        this.cap = newCap;
+        long end = Instant.now().toEpochMilli();
+        System.out.println(" the shrink time is  " + (end-begin));
+    }
 
     private int find(){
         int index = -1;
@@ -31,7 +48,7 @@ public class ArrayClass<T> {
             consumer.action((T)t);
         }
     }
-    public boolean add(T e){
+    public synchronized boolean add(T e){
         boolean flag = size < cap;
         if (flag){
             int index = find();
@@ -41,7 +58,7 @@ public class ArrayClass<T> {
         return flag;
     }
 
-    public boolean delete(int index){
+    public synchronized boolean delete(int index){
         boolean flag = index < size;
         if (flag){
             array[index] = null;
@@ -50,7 +67,7 @@ public class ArrayClass<T> {
         return flag;
     }
 
-    public boolean update(T e, int index){
+    public synchronized boolean update(T e, int index){
         boolean flag = index < size;
         if (flag){
             array[index] = e;
@@ -70,6 +87,8 @@ public class ArrayClass<T> {
         }
         System.out.println(arrayClass.delete(1000));
         arrayClass.forEach(System.out::println);
+
+        arrayClass.shrink(10000000);
     }
 
 }
