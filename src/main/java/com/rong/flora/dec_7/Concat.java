@@ -1,7 +1,6 @@
 package com.rong.flora.dec_7;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.log4j.Logger;
 
 import java.time.Instant;

@@ -1,6 +1,8 @@
 package com.rong.flora.data_structure;
 
 
+import com.rong.flora.dec_7.FunctionInterface;
+
 /**
  * Created by rong 16/10/13.
  */
@@ -15,6 +17,13 @@ public class SingleLinkedList<T> {
         len = 0;
     }
 
+    public void forEach(SConsumer<T> action){
+        if (action != null){
+            for (int i = 0; i < len; i++) {
+                action.accept(search(i));
+            }
+        }
+    }
     public Integer getLen() {
         return len;
     }
@@ -167,6 +176,7 @@ public class SingleLinkedList<T> {
 //        test.testSearch(10);
 //        test.testSwap();
         test.testSeekMiddle();
+
 //        test.testDelete(0);
 //        test.testAppend();
 
@@ -209,6 +219,7 @@ class TestSingleLinkedList {
         list.insert(4);
 //        insert(5);
         list.show();
+        list.forEach(System.out::println);
     }
 
     public void testSwap(){
